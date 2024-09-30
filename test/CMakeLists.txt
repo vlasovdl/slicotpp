@@ -15,9 +15,10 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 add_executable(unit_test
+        ib01ad.test.cpp
 )
 
-target_link_libraries(unit_test PRIVATE slicotpp GTest::gmock GTest::gmock_main)
+target_link_libraries(unit_test PRIVATE slicotpp slicot GTest::gmock GTest::gmock_main)
 
 include(GoogleTest)
 gtest_discover_tests(
