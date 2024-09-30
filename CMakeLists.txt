@@ -183,3 +183,18 @@ add_library(slicotpp INTERFACE
 )
 target_include_directories(slicotpp INTERFACE ./include)
 target_link_libraries(slicotpp INTERFACE slicot)
+
+#Конфигурация компиляции SLICOTPP
+add_library(slicotpp INTERFACE
+)
+target_include_directories(slicotpp INTERFACE ./include)
+target_link_libraries(slicotpp INTERFACE slicot)
+
+# Конфигурация тестов
+# По умолчанию тесты не строятся
+# При необходимости построить тесты нужно на этапе конфигурации указать
+# -DVLASOVDL_SLICOTPP_BUILD_TEST=ON
+set(VLASOVDL_SLICOTPP_BUILD_TEST OFF CACHE BOOL "The need to build tests")
+if(VLASOVDL_SLICOTPP_BUILD_TEST)
+add_subdirectory(test bin/test)
+endif()
