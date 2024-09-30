@@ -1,0 +1,3 @@
+[submodule "SLICOT-Reference"]
+	path = SLICOT-Reference
+	url = https://github.com/python-control/SLICOT-Reference.git
