@@ -170,16 +170,10 @@ set ( SLICOT_FSOURCE
         src/noop.cpp
 )
 
-add_library(slicot OBJECT
+add_library(slicotpp OBJECT
         ${SLICOT_FSOURCE}
         src/XERBLA.f
         src/ftruefalse.f
 )
-target_link_libraries(slicot PUBLIC ${LAPACK_LIBRARIES})
-
-# Конфигурация компиляции SLICOTPP
-add_library(slicotpp OBJECT
-        src/noop.cpp
-)
-target_include_directories(slicotpp PUBLIC ./include)
-target_link_libraries(slicotpp PUBLIC slicot)
+target_link_libraries(slicotpp PUBLIC LAPACK::LAPACK)
+target_include_directories(slicotpp INTERFACE ./include)
