@@ -167,21 +167,16 @@ set ( SLICOT_FSOURCE
         SLICOT-Reference/src/MB01SS.f  SLICOT-Reference/src/MB04OW.f  SLICOT-Reference/src/SB04OD.f  SLICOT-Reference/src/UE01MD.f
         SLICOT-Reference/src/MB01TD.f  SLICOT-Reference/src/MB04OX.f  SLICOT-Reference/src/SB04OW.f  SLICOT-Reference/src/zelctg.f
         SLICOT-Reference/src/MB01UD.f  SLICOT-Reference/src/MB04OY.f  SLICOT-Reference/src/SB04PD.f
+        src/noop.cpp
 )
 
-add_library(slicot OBJECT
+add_library(slicotpp OBJECT
         ${SLICOT_FSOURCE}
         src/XERBLA.f
         src/ftruefalse.f
 )
-target_link_libraries(slicot PUBLIC ${LAPACK_LIBRARIES})
-
-# Конфигурация компиляции SLICOTPP
-add_library(slicotpp OBJECT
-        src/noop.cpp
-)
-target_include_directories(slicotpp PUBLIC ./include)
-target_link_libraries(slicotpp PUBLIC slicot)
+target_link_libraries(slicotpp PUBLIC LAPACK::LAPACK)
+target_include_directories(slicotpp INTERFACE ./include)
 
 # Конфигурация тестов
 # По умолчанию тесты не строятся
