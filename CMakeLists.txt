@@ -177,10 +177,11 @@ add_library(slicot OBJECT
 target_link_libraries(slicot PUBLIC ${LAPACK_LIBRARIES})
 
 # Конфигурация компиляции SLICOTPP
-add_library(slicotpp INTERFACE
+add_library(slicotpp OBJECT
+        src/noop.cpp
 )
-target_include_directories(slicotpp INTERFACE ./include)
-target_link_libraries(slicotpp INTERFACE slicot)
+target_include_directories(slicotpp PUBLIC ./include)
+target_link_libraries(slicotpp PUBLIC slicot)
 
 # Конфигурация тестов
 # По умолчанию тесты не строятся
