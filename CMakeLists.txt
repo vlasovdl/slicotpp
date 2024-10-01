@@ -9,8 +9,6 @@ project ( slicotpp
 # Конфигурация компиляции SLICOT
 find_package(BLAS REQUIRED)
 find_package(LAPACK REQUIRED)
-message(STATUS "LAPACK: ${LAPACK_LIBRARIES}")
-message(STATUS "BLAS: ${BLAS_LIBRARIES}")
 
 set ( SLICOT_FSOURCE
         SLICOT-Reference/src/AB01MD.f  SLICOT-Reference/src/MB01UW.f  SLICOT-Reference/src/MB04PA.f  SLICOT-Reference/src/SB04PX.f
@@ -176,7 +174,7 @@ add_library(slicot OBJECT
         src/XERBLA.f
         src/ftruefalse.f
 )
-target_link_libraries(slicot INTERFACE ${LAPACK_LIBRARIES})
+target_link_libraries(slicot PUBLIC ${LAPACK_LIBRARIES})
 
 # Конфигурация компиляции SLICOTPP
 add_library(slicotpp INTERFACE
