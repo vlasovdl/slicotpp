@@ -16,9 +16,11 @@ enable_testing()
 
 add_executable(unit_test
         ib01ad.test.cpp
+        f_matrix.test.cpp
 )
 
 target_link_libraries(unit_test PRIVATE slicotpp GTest::gmock GTest::gmock_main)
+target_compile_definitions(unit_test PRIVATE "DATA_PATH=${CMAKE_CURRENT_SOURCE_DIR}")
 
 include(GoogleTest)
 gtest_discover_tests(
