@@ -5,6 +5,7 @@
 #ifndef VLASOVDL_F_MATRIX_HPP
 #define VLASOVDL_F_MATRIX_HPP
 
+#include <cassert>
 #include <vector>
 #include <type_traits>
 
