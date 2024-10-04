@@ -106,9 +106,9 @@ TEST_F(IB01AD_Test, calculation_test) {
   // Вызов Fortran процедуры
   ib01ad_(&METH, &ALG, &JOBD, &BATCH, &CONCT, &CTRL, &NOBR,
           &M, &L, &NSMP, U.cdata(), U.ld(), Y.cdata(), Y.ld(),
-          &N, R.data(), &LDR, SV.data(),
+          &N, R.data(), R.ld(), SV.data(),
           &RCOND, &TOL,
-          IWORK.data(), DWORK.data(), &LDWORK, &IWARN, &INFO);
+          IWORK.data(), DWORK.data(), DWORK.ld(), &IWARN, &INFO);
 
   EXPECT_EQ(INFO, 0);
 }
