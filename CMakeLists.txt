@@ -167,7 +167,6 @@ set ( SLICOT_FSOURCE
         SLICOT-Reference/src/MB01SS.f  SLICOT-Reference/src/MB04OW.f  SLICOT-Reference/src/SB04OD.f  SLICOT-Reference/src/UE01MD.f
         SLICOT-Reference/src/MB01TD.f  SLICOT-Reference/src/MB04OX.f  SLICOT-Reference/src/SB04OW.f  SLICOT-Reference/src/zelctg.f
         SLICOT-Reference/src/MB01UD.f  SLICOT-Reference/src/MB04OY.f  SLICOT-Reference/src/SB04PD.f
-        src/noop.cpp
 )
 
 add_library(slicotpp OBJECT
