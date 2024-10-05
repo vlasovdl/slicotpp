@@ -7,7 +7,7 @@
 #include <cstdio>
 #include <fstream>
 
-#include <vlasovdl/slicotpp.hpp>
+#include <vlasovdl/slicot.h>
 #include <vlasovdl/f_matrix.hpp>
 
 #define str(s) #s
