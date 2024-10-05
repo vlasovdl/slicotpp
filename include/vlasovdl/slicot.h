@@ -2,8 +2,8 @@
 // Created by vlasovdl on 30.09.24.
 //
 
-#ifndef VLASOVDL_SLICOTPP_HPP
-#define VLASOVDL_SLICOTPP_HPP
+#ifndef VLASOVDL_SLICOT_H
+#define VLASOVDL_SLICOT_H
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -17,4 +17,4 @@ extern void ib01ad_(  const char* METH, const char* ALG, const char* JOBD, const
 #ifdef __cplusplus
 }
 #endif
-#endif //VLASOVDL_SLICOTPP_HPP
+#endif //VLASOVDL_SLICOT_H
