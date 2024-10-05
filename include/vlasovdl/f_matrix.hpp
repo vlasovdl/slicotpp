@@ -195,6 +195,11 @@ public:
     return vector_.data();
   }
 };
+
+/// Aliases for certain type of matrices
+using f_d_matrix = f_matrix<double>;
+using f_i_matrix = f_matrix<int>;
+
 } // namespace vlasovdl
 
 #endif //VLASOVDL_F_MATRIX_HPP
