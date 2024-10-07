@@ -28,7 +28,7 @@ public:
 
   void SetUp() override {
     const int n = read_identification_data(U, Y,
-                                           data_path+"/id01ad.test.data.txt");
+                                           data_path+"/ib01ad.test.data.txt");
     ASSERT_NE(n, 0) << "Can't read data file";
     ASSERT_GT(n, 0) << "Error in " << -n << " line of data file.";
     NSMP = n;
