@@ -5,6 +5,7 @@ project ( slicotpp
         LANGUAGES       C CXX Fortran
         HOMEPAGE_URL    "https://gitlab.vlasovdl.ru/vlasovdl/slicotpp"
 )
+set(CMAKE_CXX_STANDARD 14)
 
 # Конфигурация компиляции SLICOT
 find_package(BLAS REQUIRED)
