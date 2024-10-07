@@ -191,7 +191,7 @@ public:
 
   /// Get constant pointer to matrix data
   /// @return
-  const value_type* cdata() {
+  const value_type* cdata() const {
     return vector_.data();
   }
 };
