@@ -17,6 +17,8 @@ enable_testing()
 add_executable(unit_test
         ib01ad.test.cpp
         f_matrix.test.cpp
+        read_identification_data.hpp
+        read_identification_data.cpp
 )
 
 target_link_libraries(unit_test PRIVATE slicotpp GTest::gmock GTest::gmock_main)

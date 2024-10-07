@@ -9,6 +9,7 @@
 
 #include <vlasovdl/slicot.h>
 #include <vlasovdl/f_matrix.hpp>
+#include "read_identification_data.hpp"
 
 #define str(s) #s
 #define xstr(s) str(s)
@@ -25,39 +26,14 @@ protected:
 public:
   IB01AD_Test() : M{}, L{}, NSMP{}, data_path{xstr(DATA_PATH)} {}
 
-  int read_data(const std::string& file_name) {
-    // Open data file for reading
-    const std::string inp_file_name = data_path + "/" + file_name;
-    std::ifstream inp_stream(inp_file_name, std::ios_base::in);
-    if (!inp_stream)
-      return 0;
-    // Read amount of inputs and outputs channels
-    inp_stream >> M >> L;
-    // Read channels data
-    std::vector<std::vector<double>> buffer(M + L);
-    int n = 0;                      // Number of data samples
-    while (!inp_stream.eof()) {
-      for (auto i = 0; i < M + L; ++i) {
-        double value;
-        inp_stream >> value;
-        if (inp_stream.fail()) return -(n + 2);
-        buffer[i].push_back(value);
-      }
-      ++n;
-    }
-    // Copy data from buffers to matrix
-    for (auto i = 0; i < M; ++i)
-      U.join_column(buffer[i]);
-    for (auto i = M; i < M + L; ++i)
-      Y.join_column(buffer[i]);
-    return n;
-  }
-
   void SetUp() override {
-    const int n = read_data("id01ad.test.data.txt");
+    const int n = read_identification_data(U, Y,
+                                           data_path+"/id01ad.test.data.txt");
     ASSERT_NE(n, 0) << "Can't read data file";
     ASSERT_GT(n, 0) << "Error in " << -n << " line of data file.";
     NSMP = n;
+    M = U.cols();
+    L = Y.cols();
   }
 };
 
