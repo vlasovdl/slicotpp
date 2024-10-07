@@ -5,7 +5,6 @@ project ( slicotpp
         LANGUAGES       C CXX Fortran
         HOMEPAGE_URL    "https://gitlab.vlasovdl.ru/vlasovdl/slicotpp"
 )
-set(CMAKE_CXX_STANDARD 14)
 
 # Конфигурация компиляции SLICOT
 find_package(BLAS REQUIRED)
@@ -174,11 +173,9 @@ add_library(slicotpp OBJECT
         ${SLICOT_FSOURCE}
         src/XERBLA.f
         src/ftruefalse.f
-        include/vlasovdl/slicotpp/ib01.hpp
-        src/ib01.cpp
 )
 target_link_libraries(slicotpp PUBLIC LAPACK::LAPACK)
-target_include_directories(slicotpp PUBLIC ./include)
+target_include_directories(slicotpp INTERFACE ./include)
 
 # Конфигурация тестов
 # По умолчанию тесты не строятся
