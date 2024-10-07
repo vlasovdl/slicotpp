@@ -177,3 +177,12 @@ add_library(slicotpp OBJECT
 )
 target_link_libraries(slicotpp PUBLIC LAPACK::LAPACK)
 target_include_directories(slicotpp INTERFACE ./include)
+
+# Конфигурация тестов
+# По умолчанию тесты не строятся
+# При необходимости построить тесты нужно на этапе конфигурации указать
+# -DVLASOVDL_SLICOTPP_BUILD_TEST=ON
+set(VLASOVDL_SLICOTPP_BUILD_TEST OFF CACHE BOOL "The need to build tests")
+if(VLASOVDL_SLICOTPP_BUILD_TEST)
+add_subdirectory(test bin/test)
+endif()
