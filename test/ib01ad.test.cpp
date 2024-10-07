@@ -72,7 +72,7 @@ TEST_F(IB01AD_Test, calculation_test) {
   vlasovdl::f_matrix<int> IWORK{LIWORK};
 
   // Определяем массив DWORK
-  int LDWORK = 200; //5*L*NOBR;
+  int LDWORK = 5*L*NOBR;
   vlasovdl::f_matrix<double> DWORK{LDWORK};
 
   // -- Диагностические переменные
