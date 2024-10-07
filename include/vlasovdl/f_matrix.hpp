@@ -178,7 +178,7 @@ public:
 
   /// Get pointer to lead dimension
   /// @return Pointer to constant integer
-  const int* ld() {
+  const int* ld() const {
     return &rows_;
   }
 
