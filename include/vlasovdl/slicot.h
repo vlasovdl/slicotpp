@@ -7,12 +7,44 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+/**
+* Preprocess the input-output data for estimating the matrices of a linear
+* time-invariant dynamical system and to find an estimate of the system order.
+* The input-output data can, optionally, be processed sequentially.
+**/
+extern void ib01ad_(const char* METH, const char* ALG, const char* JOBD,
+  const char* BATCH, const char* CONCT, const char* CTRL, const int* NOBR,
+  const int* M, const int* L, const int* NSMP, const double* U, const int* LDU,
+  const double* Y, const int* LDY, int* N, double* R, const int* LDR, double* SV,
+  const double* RCOND, const double* TOL, int* IWORK, double* DWORK,
+  const int* LDWORK, int* IWARN, int* INFO);
 
-extern void ib01ad_(  const char* METH, const char* ALG, const char* JOBD, const char* BATCH, const char* CONCT,
-                      const char* CTRL, const int* NOBR, const int* M, const int* L, const int* NSMP,
-                      const double* U, const int* LDU, const double* Y, const int* LDY, int* N, double* R,
-                      const int* LDR, double* SV, const double* RCOND, const double* TOL, int* IWORK, double* DWORK,
-                      const int* LDWORK, int* IWARN, int* INFO);
+/**
+* Estimate the system matrices A, C, B, and D, the noise covariance matrices Q,
+* Ry, and S, and the Kalman gain matrix K of a linear time-invariant state space
+* model, using the processed triangular factor R of the concatenated block
+* Hankel matrices, provided by SLICOT Library routine IB01AD.
+**/
+extern void ib01bd_(const char* METH, const char* JOB, const char* JOBCK,
+  const int* NOBR, const int* N, const int* M, const int* L, const int* NSMPL,
+  double* R, const int* LDR, double* A, const int* LDA, double* C,
+  const int* LDC, double* B, const int* LDB, double* D, const int* LDD,
+  double* Q, const int* LDQ, double* RY, const int* LDRY, double* S,
+  const int* LDS, double* K, const int* LDK, const double* TOL, int* IWORK,
+  double* DWORK, const int* LDWORK, int* BWORK, int* IWARN, int* INFO);
+
+/**
+* Estimate the initial state and, optionally, the system matrices B  and  D
+* of a linear time-invariant (LTI) discrete-time system, given the system
+* matrices  (A,B,C,D),  or (when  B  and  D  are estimated) only the matrix
+* pair  (A,C),  and the input and output trajectories of the system.
+**/
+extern void ib01cd_(const char* JOBX0, const char* COMUSE, const char* JOB,
+  const int* N, const int* M, const int* L, const int* NSMP, const double* A,
+  const int* LDA, double* B, const int* LDB, const double* C, const int* LDC,
+  double* D, const int* LDD, double* U, const int* LDU, const double* Y,
+  const int* LDY, double* X0, double* V, const int* LDV, const double* TOL,
+  int* IWORK, double* DWORK, const int* LDWORK, int* IWARN, int* INFO);
 
 #ifdef __cplusplus
 }
