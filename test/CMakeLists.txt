@@ -20,6 +20,8 @@ add_executable(unit_test
         f_matrix.test.cpp
         ib01ad.test.cpp
         ib01bd.test.cpp
+        ib01.tools.hpp
+        ib01.tools.cpp
 )
 
 target_link_libraries(unit_test PRIVATE slicotpp GTest::gmock GTest::gmock_main)
