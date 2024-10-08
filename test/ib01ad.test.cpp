@@ -10,6 +10,7 @@
 #include <vlasovdl/slicot.h>
 #include <vlasovdl/f_matrix.hpp>
 #include "read_identification_data.hpp"
+#include "ib01.tools.hpp"
 
 #define str(s) #s
 #define xstr(s) str(s)
@@ -73,34 +74,19 @@ TEST_F(IB01AD_Test, MOESP_Cholesky) {
   RCOND = 0.0;
   TOL   = -1.0;
 
-  // Определяем размер для R
-  int LDR = 2*(M+L)*NOBR;
-  if (METH == 'M' and JOBD == 'M') LDR = std::max(LDR, 3*M*NOBR);
-  R = f_matrix<double> {LDR, 2 * (M + L) * NOBR};
+  int LDR, LIWORK, LDWORK;
+  ib01ad_ws(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,LDR,LIWORK,LDWORK);
 
-  // Определяем вектор сингулярных значений
-  SV = f_matrix<double> {L*NOBR};
-
-  // Определяем массив IWORK
-  int LIWORK = 3;
-  if      (METH == 'N') LIWORK = std::max(LIWORK, (M + L)*NOBR);
-  else if (ALG  == 'F') LIWORK = std::max(LIWORK, M + L);
-  IWORK = f_matrix<int> {LIWORK};
+  R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
+  SV = fd_matrix {L*NOBR};
+  IWORK = fi_matrix {LIWORK};
+  DWORK = fd_matrix {LDWORK};
 
   // Вызов Fortran процедуры
-  DWORK = f_matrix<double>{1};
-  while (true) {
-    ib01ad_(&METH, &ALG, &JOBD, &BATCH, &CONCT, &CTRL, &NOBR, &M, &L,
-            &U.rows(), U.cdata(), U.ld(), Y.cdata(), Y.ld(), &N, R.data(),
-            R.ld(), SV.data(), &RCOND, &TOL, IWORK.data(), DWORK.data(),
-            DWORK.ld(), &IWARN, &INFO);
-    if (INFO == -23) {
-      int ldwork = static_cast<int>(DWORK(1));
-      DWORK      = f_d_matrix{ldwork};
-      continue;
-    }
-    break;
-  }
+  ib01ad_(&METH, &ALG, &JOBD, &BATCH, &CONCT, &CTRL, &NOBR, &M, &L,
+          &U.rows(), U.cdata(), U.ld(), Y.cdata(), Y.ld(), &N, R.data(),
+          R.ld(), SV.data(), &RCOND, &TOL, IWORK.data(), DWORK.data(),
+          DWORK.ld(), &IWARN, &INFO);
   ASSERT_EQ(INFO, 0);
 }
 
@@ -119,34 +105,19 @@ TEST_F(IB01AD_Test, MOESP_FastQR) {
   RCOND = 0.0;
   TOL   = -1.0;
 
-  // Определяем размер для R
-  int LDR = 2*(M+L)*NOBR;
-  if (METH == 'M' and JOBD == 'M') LDR = std::max(LDR, 3*M*NOBR);
-  R = f_matrix<double> {LDR, 2 * (M + L) * NOBR};
+  int LDR, LIWORK, LDWORK;
+  ib01ad_ws(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,LDR,LIWORK,LDWORK);
 
-  // Определяем вектор сингулярных значений
-  SV = f_matrix<double> {L*NOBR};
-
-  // Определяем массив IWORK
-  int LIWORK = 3;
-  if      (METH == 'N') LIWORK = std::max(LIWORK, (M + L)*NOBR);
-  else if (ALG  == 'F') LIWORK = std::max(LIWORK, M + L);
-  IWORK = f_matrix<int> {LIWORK};
+  R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
+  SV = fd_matrix {L*NOBR};
+  IWORK = fi_matrix {LIWORK};
+  DWORK = fd_matrix {LDWORK};
 
   // Вызов Fortran процедуры
-  DWORK = f_matrix<double>{1};
-  while (true) {
-    ib01ad_(&METH, &ALG, &JOBD, &BATCH, &CONCT, &CTRL, &NOBR, &M, &L,
-            &U.rows(), U.cdata(), U.ld(), Y.cdata(), Y.ld(), &N, R.data(),
-            R.ld(), SV.data(), &RCOND, &TOL, IWORK.data(), DWORK.data(),
-            DWORK.ld(), &IWARN, &INFO);
-    if (INFO == -23) {
-      int ldwork = static_cast<int>(DWORK(1));
-      DWORK      = f_d_matrix{ldwork};
-      continue;
-    }
-    break;
-  }
+  ib01ad_(&METH, &ALG, &JOBD, &BATCH, &CONCT, &CTRL, &NOBR, &M, &L,
+          &U.rows(), U.cdata(), U.ld(), Y.cdata(), Y.ld(), &N, R.data(),
+          R.ld(), SV.data(), &RCOND, &TOL, IWORK.data(), DWORK.data(),
+          DWORK.ld(), &IWARN, &INFO);
   ASSERT_EQ(INFO, 0);
 }
 
@@ -165,33 +136,111 @@ TEST_F(IB01AD_Test, MOESP_QR) {
   RCOND = 0.0;
   TOL   = -1.0;
 
-  // Определяем размер для R
-  int LDR = 2*(M+L)*NOBR;
-  if (METH == 'M' and JOBD == 'M') LDR = std::max(LDR, 3*M*NOBR);
-  R = f_matrix<double> {LDR, 2 * (M + L) * NOBR};
+  int LDR, LIWORK, LDWORK;
+  ib01ad_ws(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,LDR,LIWORK,LDWORK);
 
-  // Определяем вектор сингулярных значений
-  SV = f_matrix<double> {L*NOBR};
-
-  // Определяем массив IWORK
-  int LIWORK = 3;
-  if      (METH == 'N') LIWORK = std::max(LIWORK, (M + L)*NOBR);
-  else if (ALG  == 'F') LIWORK = std::max(LIWORK, M + L);
-  IWORK = f_matrix<int> {LIWORK};
+  R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
+  SV = fd_matrix {L*NOBR};
+  IWORK = fi_matrix {LIWORK};
+  DWORK = fd_matrix {LDWORK};
 
   // Вызов Fortran процедуры
-  DWORK = f_matrix<double>{1};
-  while (true) {
-    ib01ad_(&METH, &ALG, &JOBD, &BATCH, &CONCT, &CTRL, &NOBR, &M, &L,
-            &U.rows(), U.cdata(), U.ld(), Y.cdata(), Y.ld(), &N, R.data(),
-            R.ld(), SV.data(), &RCOND, &TOL, IWORK.data(), DWORK.data(),
-            DWORK.ld(), &IWARN, &INFO);
-    if (INFO == -23) {
-      int ldwork = static_cast<int>(DWORK(1));
-      DWORK      = f_d_matrix{ldwork};
-      continue;
-    }
-    break;
-  }
+  ib01ad_(&METH, &ALG, &JOBD, &BATCH, &CONCT, &CTRL, &NOBR, &M, &L,
+          &U.rows(), U.cdata(), U.ld(), Y.cdata(), Y.ld(), &N, R.data(),
+          R.ld(), SV.data(), &RCOND, &TOL, IWORK.data(), DWORK.data(),
+          DWORK.ld(), &IWARN, &INFO);
+  ASSERT_EQ(INFO, 0);
+}
+
+TEST_F(IB01AD_Test, N4SID_Cholesky) {
+  // -- Конфигурация расчета
+  METH  = 'N';    // Using N4SID algorithm
+  ALG   = 'C';    // Cholesky algorithm
+  JOBD  = 'N';
+  BATCH = 'O';    // non-sequential data processing
+  CONCT = 'N';
+  CTRL  = 'N';
+  NOBR  = 15;
+  M     = U.cols();
+  L     = Y.cols();
+  NSMP  = U.rows();
+  RCOND = 0.0;
+  TOL   = -1.0;
+
+  int LDR, LIWORK, LDWORK;
+  ib01ad_ws(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,LDR,LIWORK,LDWORK);
+
+  R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
+  SV = fd_matrix {L*NOBR};
+  IWORK = fi_matrix {LIWORK};
+  DWORK = fd_matrix {LDWORK};
+
+  // Вызов Fortran процедуры
+  ib01ad_(&METH, &ALG, &JOBD, &BATCH, &CONCT, &CTRL, &NOBR, &M, &L,
+          &U.rows(), U.cdata(), U.ld(), Y.cdata(), Y.ld(), &N, R.data(),
+          R.ld(), SV.data(), &RCOND, &TOL, IWORK.data(), DWORK.data(),
+          DWORK.ld(), &IWARN, &INFO);
+  ASSERT_EQ(INFO, 0);
+}
+
+TEST_F(IB01AD_Test, N4SID_FastQR) {
+  // -- Конфигурация расчета
+  METH  = 'N';    // Using N4SID algorithm
+  ALG   = 'F';    // Fast QR algorithm
+  JOBD  = 'N';
+  BATCH = 'O';    // non-sequential data processing
+  CONCT = 'N';
+  CTRL  = 'N';
+  NOBR  = 15;
+  M     = U.cols();
+  L     = Y.cols();
+  NSMP  = U.rows();
+  RCOND = 0.0;
+  TOL   = -1.0;
+
+  int LDR, LIWORK, LDWORK;
+  ib01ad_ws(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,LDR,LIWORK,LDWORK);
+
+  R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
+  SV = fd_matrix {L*NOBR};
+  IWORK = fi_matrix {LIWORK};
+  DWORK = fd_matrix {LDWORK};
+
+  // Вызов Fortran процедуры
+  ib01ad_(&METH, &ALG, &JOBD, &BATCH, &CONCT, &CTRL, &NOBR, &M, &L,
+          &U.rows(), U.cdata(), U.ld(), Y.cdata(), Y.ld(), &N, R.data(),
+          R.ld(), SV.data(), &RCOND, &TOL, IWORK.data(), DWORK.data(),
+          DWORK.ld(), &IWARN, &INFO);
+  ASSERT_EQ(INFO, 0);
+}
+
+TEST_F(IB01AD_Test, N4SID_QR) {
+  // -- Конфигурация расчета
+  METH  = 'N';    // Using N4SID algorithm
+  ALG   = 'Q';    // QR algorithm
+  JOBD  = 'N';
+  BATCH = 'O';    // non-sequential data processing
+  CONCT = 'N';
+  CTRL  = 'N';
+  NOBR  = 15;
+  M     = U.cols();
+  L     = Y.cols();
+  NSMP  = U.rows();
+  RCOND = 0.0;
+  TOL   = -1.0;
+
+  int LDR, LIWORK, LDWORK;
+  ib01ad_ws(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,LDR,LIWORK,LDWORK);
+
+  R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
+  SV = fd_matrix {L*NOBR};
+  IWORK = fi_matrix {LIWORK};
+  DWORK = fd_matrix {LDWORK};
+
+  // Вызов Fortran процедуры
+  ib01ad_(&METH, &ALG, &JOBD, &BATCH, &CONCT, &CTRL, &NOBR, &M, &L,
+          &U.rows(), U.cdata(), U.ld(), Y.cdata(), Y.ld(), &N, R.data(),
+          R.ld(), SV.data(), &RCOND, &TOL, IWORK.data(), DWORK.data(),
+          DWORK.ld(), &IWARN, &INFO);
   ASSERT_EQ(INFO, 0);
 }
