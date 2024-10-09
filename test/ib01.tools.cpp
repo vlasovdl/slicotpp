@@ -63,3 +63,136 @@ void ib01ad_ws(char METH, char ALG, char JOBD, char BATCH, char CONCT,
     }
   }
 }
+
+void ib01bd_ws (char METH, char JOB, char JOBCK, int NOBR, int N, int M, int L,
+  int& LDA, int& LDB, int& LDC, int& LDD, int& LDQ, int& LDRY, int& LDS,
+  int& LDK, int& LDWORK, int& LIWORK, int& LBWORK) {
+  // Расчет LDA, LDC
+  if (JOB == 'A' or JOB == 'C' or ((METH == 'N' or METH == 'C') and (JOB == 'B'
+    or JOB == 'D'))) {
+    LDA = N; LDC = L;
+  } else {
+    LDA = 1; LDC = 1;
+  }
+
+  // Расчет LDB
+  if (M > 0 and (JOB == 'A' or JOB == 'B' or JOB == 'D')) {
+    LDB = N;
+  } else if (M == 0 or  JOB == 'C') {
+    LDB = 1;
+  }
+
+  // Расчет LDD
+  if (M > 0 and (JOB == 'A' or JOB == 'D')) {
+    LDD = L;
+  } else if (M == 0 or (JOB == 'C' or JOB == 'B')) {
+    LDD = 1;
+  }
+
+  // Расчет LDQ, LDRY, LDS, LDK
+  if (JOBCK == 'C' or JOBCK == 'K') {
+    LDQ = N; LDRY = L; LDS = N;
+  } else if (JOBCK == 'N') {
+    LDQ = 1; LDRY = 1; LDS = 1;
+  }
+
+  // Расчет LDK
+  if (JOBCK == 'K') {
+    LDK = N;
+  } else if (JOBCK == 'N' or JOBCK == 'C') {
+    LDK = 1;
+  }
+
+  // Расчет LDWORK
+  int LDW1 = 0, LDW2 = 0, LDW3 = 0;
+  if (METH == 'M') {
+    if (JOB == 'C' or (JOB == 'A' and M == 0)) {
+      LDW1 = std::max(2 * (L * NOBR - L) * N + 2 * N,
+                      (L * NOBR - L) * N + N * N + 7 * N);
+    } else if (M > 0 and (JOB == 'A' or JOB == 'B' or JOB == 'D')) {
+      LDW1 = std::max({
+        2 * (L * NOBR - L) * N + N * N + 7 * N,
+        (L * NOBR - L) * N + N + 6 * M * NOBR,
+        (L * NOBR - L) * N + N + std::max({
+          L + M * NOBR,
+          L * NOBR + std::max(3 * L * NOBR + 1, M)
+        })
+      });
+    }
+    if (JOBCK == 'N') {
+      LDW2 = 0;
+    } else if (JOBCK == 'C' or JOBCK == 'K') {
+      int Aw = (M == 0 or JOB == 'C') ? N + N * N : 0;
+      LDW2   = L * NOBR * N + std::max({
+        (L * NOBR - L) * N + Aw + 2 * N + std::max(
+          5 * N, (2 * M + L) * NOBR + L),
+        4 * (M * NOBR + N) + 1,
+        M * NOBR + 2 * N + L
+      });
+    }
+  } else if (METH == 'N') {
+    LDW1 = L * NOBR * N + std::max({
+      (L * NOBR - L) * N + 2 * N + (2 * M + L) * NOBR + L,
+      2 * (L * NOBR - L) * N + N * N + 8 * N,
+      N + 4 * (M * NOBR + N) + 1,
+      M * NOBR + 3 * N + L
+    });
+    if (M == 0 or JOB == 'C') {
+      LDW2 = 0;
+    } else if (M > 0 and (JOB == 'A' or JOB == 'B' or JOB == 'D')) {
+      LDW2 = L * NOBR * N + M * NOBR * (N + L) * (M * (N + L) + 1) + std::max(
+        (N + L) ^ 2, 4 * M * (N + L) + 1);
+    }
+  } else if (METH == 'C') {
+    LDW1 = std::max({
+      std::max(2 * (L * NOBR - L) * N + 2 * N,
+               (L * NOBR - L) * N + N * N + 7 * N),
+      L * NOBR * N + std::max({
+        (L * NOBR - L) * N + 2 * N + (2 * M + L) * NOBR + L,
+        2 * (L * NOBR - L) * N + N * N + 8 * N,
+        N + 4 * (M * NOBR + N) + 1,
+        M * NOBR + 3 * N + L
+      })
+    });
+    if (M == 0 or JOB == 'C') {
+      LDW2 = 0;
+    } else if (M > 0 and (JOB == 'A' or JOB == 'B' or JOB == 'D')) {
+      LDW2 = L * NOBR * N + M * NOBR * (N + L) * (M * (N + L) + 1) + std::max(
+        (N + L) ^ 2, 4 * M * (N + L) + 1);
+    }
+    if (JOBCK != 'K') {
+      LDW3 = 0;
+    } else {
+      LDW3 = std::max(4 * N * N + 2 * N * L + L * L + std::max(3 * L, N * L),
+                      14 * N * N + 12 * N + 5);
+    }
+  }
+  LDWORK = std::max ({LDW1, LDW2, LDW3});
+
+  // Расчет LIWORK
+  int LIW1 = 0, LIW2 = 0;
+  if (METH != 'N' and (M == 0 or (JOB == 'C' and JOBCK == 'N'))) {
+    LIW1 = N;
+  } else if (METH != 'N' and JOB == 'C' and JOBCK != 'N') {
+    LIW1 = M * NOBR + N;
+  } else if (METH == 'M' and JOB != 'C' and JOBCK == 'N') {
+    LIW1 = std::max(L * NOBR, M * NOBR);
+  } else if (METH == 'M' and JOB != 'C' and (JOBCK == 'C' or JOBCK == 'K')) {
+    LIW1 = std::max(L * NOBR, M * NOBR + N);
+  } else if (METH == 'N' or (METH == 'C' and JOB != 'C')) {
+    LIW1 = std::max(M * NOBR + N, M * (N + L));
+  }
+  if (JOBCK != 'K') {
+    LIW2 = 0;
+  } else {
+    LIW2 = N * N;
+  }
+  LIWORK = std::max(LIW1, LIW2);
+
+  // Расчет LBWORK
+  if (JOBCK == 'K') {
+    LBWORK = 2 * N;
+  } else {
+    LBWORK = 0;
+  }
+}
