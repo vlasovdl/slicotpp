@@ -17,10 +17,10 @@ int read_identification_data(f_d_matrix& U, f_d_matrix& Y,
   int m, l;
   inp_stream >> m >> l;
   // Read channels data
-  std::vector<std::vector<double>> buffer(m + m);
+  std::vector<std::vector<double>> buffer(m + l);
   int n = 0; // Number of data samples
   while (!inp_stream.eof()) {
-    for (auto i = 0; i < m + m; ++i) {
+    for (auto i = 0; i < m + l; ++i) {
       double value;
       inp_stream >> value;
       if (inp_stream.fail()) return -(n + 2);
