@@ -244,3 +244,81 @@ TEST_F(IB01AD_Test, N4SID_QR) {
           DWORK.ld(), &IWARN, &INFO);
   ASSERT_EQ(INFO, 0);
 }
+
+TEST_F(IB01AD_Test, LDWORK_Calculation) {
+  GTEST_SKIP();
+  // -- Конфигурация расчета
+  std::vector<char> METH_V  {'M', 'N'};
+  std::vector<char> ALG_V   {'C', 'F', 'Q'};
+  std::vector<char> JOBD_V  {'M', 'N'};
+  std::vector<char> BATCH_V {'F', 'I', 'L', 'O'};
+  std::vector<char> CONCT_V {'C', 'N'};
+
+  CTRL  = 'N';
+  NOBR  = 15;
+  M     = U.cols();
+  L     = Y.cols();
+  NSMP  = U.rows();
+  RCOND = 0.0;
+  TOL   = -1.0;
+  for (char METH : METH_V)
+    for (char ALG : ALG_V)
+      for (char JOBD : JOBD_V)
+        for (char BATCH : BATCH_V)
+          for (char CONCT : CONCT_V) {
+            int LDR, LIWORK, LDWORK;
+            ib01ad_ws(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,LDR,LIWORK,
+                      LDWORK);
+            R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
+            SV = fd_matrix {L*NOBR};
+            IWORK = fi_matrix {LIWORK};
+            DWORK = fd_matrix {1}; // Not correct DWORK
+            // Вызов Fortran процедуры
+            ib01ad_(&METH, &ALG, &JOBD, &BATCH, &CONCT, &CTRL, &NOBR, &M, &L,
+                    &U.rows(), U.cdata(), U.ld(), Y.cdata(), Y.ld(), &N,
+                    R.data(), R.ld(), SV.data(), &RCOND, &TOL, IWORK.data(),
+                    DWORK.data(), DWORK.ld(), &IWARN, &INFO);
+            // EXPECT_EQ(INFO, -23);
+            EXPECT_EQ(LDWORK,static_cast<int>(DWORK(1))) <<
+            "LDWORK not equal: METH= " << METH <<
+            ", ALG = " << ALG <<
+            ", JOBD = " << JOBD <<
+            ", BATCH = " << BATCH <<
+            ", CONCT = " << CONCT <<
+            ", INFO = " << INFO <<
+            ", LDWORK = " << LDWORK <<
+            ", DWORK(1) = " << static_cast<int>(DWORK(1));
+          }
+}
+
+TEST_F(IB01AD_Test, DebugTest) {
+  GTEST_SKIP();
+  // -- Конфигурация расчета
+  METH  = 'M';    // Using MOESP  algorithm with past inputs and outputs
+  ALG   = 'F';    // Cholesky algorithm
+  JOBD  = 'N';
+  BATCH = 'O';    // non-sequential data processing
+  CONCT = 'N';
+  CTRL  = 'N';
+  NOBR  = 15;
+  M     = U.cols();
+  L     = Y.cols();
+  NSMP  = U.rows();
+  RCOND = 0.0;
+  TOL   = -1.0;
+
+  int LDR, LIWORK, LDWORK;
+  ib01ad_ws(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,LDR,LIWORK,LDWORK);
+
+  R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
+  SV = fd_matrix {L*NOBR};
+  IWORK = fi_matrix {LIWORK};
+  DWORK = fd_matrix {1};
+
+  // Вызов Fortran процедуры
+  ib01ad_(&METH, &ALG, &JOBD, &BATCH, &CONCT, &CTRL, &NOBR, &M, &L,
+          &U.rows(), U.cdata(), U.ld(), Y.cdata(), Y.ld(), &N, R.data(),
+          R.ld(), SV.data(), &RCOND, &TOL, IWORK.data(), DWORK.data(),
+          DWORK.ld(), &IWARN, &INFO);
+  ASSERT_EQ(INFO, -23);
+}
