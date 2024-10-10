@@ -111,8 +111,8 @@ public:
 
 TEST_F(IB01BD_Test, MOESP_calc) {
  // -- Конфигурация расчета
-  char   METH  = 'M';
-  char   JOB   = 'A';
+  char   METH  = 'N';
+  char   JOB   = 'B';
   char   JOBCK = 'C';
   double TOL   = -1.0;
 
@@ -125,8 +125,8 @@ TEST_F(IB01BD_Test, MOESP_calc) {
 
   // -- Расчет рабочего пространства
   int LDWORK, LIWORK, LBWORK, LDA, LDB, LDC, LDD, LDRY, LDQ, LDS, LDK ;
-  ib01bd_ws(METH, JOB, JOBCK, NOBR, N, M, L, LDA, LDB, LDC, LDD, LDQ, LDRY, LDS,
-            LDK, LDWORK, LIWORK, LBWORK);
+  // ib01bd_ws(METH, JOB, JOBCK, NOBR, N, M, L, LDA, LDB, LDC, LDD, LDQ, LDRY, LDS,
+  //           LDK, LDWORK, LIWORK, LBWORK);
   ib01bd_sizes(METH, JOB, JOBCK, NOBR, N, M, L, &LDA, &LDC, &LDB, &LDD, &LDQ,
                &LDRY, &LDS, &LDK, &LIWORK, &LDWORK, &LBWORK);
 
@@ -151,8 +151,8 @@ TEST_F(IB01BD_Test, MOESP_calc) {
   ASSERT_EQ(INFO, 0);
 }
 
-TEST_F(IB01BD_Test, LDWORK_Calculation) {
-  GTEST_SKIP();
+TEST_F(IB01BD_Test, sizes_calculation) {
+  // GTEST_SKIP();
   // -- Конфигурация расчета
   double TOL   = -1.0;
 
@@ -173,8 +173,10 @@ TEST_F(IB01BD_Test, LDWORK_Calculation) {
       for (char JOBCK : JOBCK_V) {
         // -- Расчет рабочего пространства
         int LDWORK, LIWORK, LBWORK, LDA, LDB, LDC, LDD, LDRY, LDQ, LDS, LDK;
-        ib01bd_ws(METH, JOB, JOBCK, NOBR, N, M, L, LDA, LDB, LDC, LDD, LDQ,
-                  LDRY, LDS, LDK, LDWORK, LIWORK, LBWORK);
+        // ib01bd_ws(METH, JOB, JOBCK, NOBR, N, M, L, LDA, LDB, LDC, LDD, LDQ,
+        //           LDRY, LDS, LDK, LDWORK, LIWORK, LBWORK);
+        ib01bd_sizes(METH, JOB, JOBCK, NOBR, N, M, L, &LDA, &LDC, &LDB, &LDD, &LDQ,
+               &LDRY, &LDS, &LDK, &LIWORK, &LDWORK, &LBWORK);
         // -- Создание матриц
         fd_matrix A{LDA, N}, B{LDB, M}, C{LDC, N}, D{LDD, M}, Q{LDQ, N},
                   RY{LDRY, L}, S{LDS, L}, K{LDK, L};

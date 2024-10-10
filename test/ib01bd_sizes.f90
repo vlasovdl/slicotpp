@@ -41,23 +41,23 @@ subroutine ib01bd_sizes(meth, job, jobck, nobr, n, m, l, lda, ldc, ldb, ldd, &
   ldwork = 1
 
 ! -- Compute LDA, LDC
-  if (withc .or. (n4sid .or. combin) .and. withd ) then
+  if ( withc .or. ( withb .and. .not.moesp ) ) then
     lda = n; ldc = l
   else
     lda = 1; ldc = 1
   end if
 
 ! -- Compute LDB
-  if (m > 0 .and. (withal .or. withb)) then
+  if ( m > 0 .and. withb ) then
     ldb = n
-  else if (m == 0 .or. withc) then
+  else
     ldb = 1
   end if
 
 ! -- Compute LDD
   if (m > 0 .and. withd) then
     ldd = l
-  else if (m == 0 .or. withc .or. withb) then
+  else
     ldd = 1
   end if
 
