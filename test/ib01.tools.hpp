@@ -47,4 +47,13 @@ void ib01bd_ws(char METH, char JOB, char JOBCK, int NOBR, int N, int M, int L,
   int& LDA, int& LDB, int& LDC, int& LDD, int& LDQ, int& LDRY, int& LDS,
   int& LDK, int& LDWORK, int& LIWORK, int& LBWORK);
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+extern void ib01bd_sizes(char METH, char JOB, char JOBCK, int NOBR, int N, int M, int L,
+    int* LDA, int* LDC, int* LDB, int* LDD, int* LDQ, int* LDRY, int* LDS,
+    int* LDK, int* LIWORK, int* LDWORK, int* LBWORK);
+#ifdef __cplusplus
+}
+#endif
 #endif //IB01_TOOLS_HPP

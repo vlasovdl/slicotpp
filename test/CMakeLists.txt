@@ -22,7 +22,7 @@ add_executable(unit_test
         ib01bd.test.cpp
         ib01.tools.hpp
         ib01.tools.cpp
-        ib01bd_ws.f90
+  ib01bd_sizes.f90
 )
 
 target_link_libraries(unit_test PRIVATE slicotpp GTest::gmock GTest::gmock_main)
