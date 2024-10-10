@@ -7,7 +7,7 @@
 
 using namespace vlasovdl;
 
-int read_identification_data(f_d_matrix& U, f_d_matrix& Y,
+int read_identification_data(fd_matrix& U, fd_matrix& Y,
                              const std::string& file_name) {
   // Open data file for reading
   std::ifstream inp_stream(file_name, std::ios_base::in);

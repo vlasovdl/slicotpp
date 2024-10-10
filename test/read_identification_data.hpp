@@ -13,7 +13,7 @@
 /// @param file_name File to read
 /// @return If (>0) number of samples that have been read; if (==0) - error
 /// while open the file; if (<0) - line number where have been a data error
-int read_identification_data(vlasovdl::f_d_matrix& U, vlasovdl::f_d_matrix& Y,
+int read_identification_data(vlasovdl::fd_matrix& U, vlasovdl::fd_matrix& Y,
                              const std::string& file_name);
 
 #endif //READ_IDENTIFICATION_DATA_HPP
