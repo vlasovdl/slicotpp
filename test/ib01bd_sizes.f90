@@ -76,43 +76,35 @@ subroutine ib01bd_sizes(meth, job, jobck, nobr, n, m, l, lda, ldc, ldb, ldd, &
   end if
 
 ! -- Compute ldwork
+  iaw    = 0
+  minwrk = ldunn + 4*n
   if( .not.n4sid ) then
     id = 0
     if( withc ) then
-      ldwork = max( ldwork, 2*ldunn + n2, ldunn + nn + 7*n )
+      minwrk = max( minwrk, 2*ldunn + n2, ldunn + nn + 7*n )
     end if
   else
     id = n
   end if
   !
   if( ( m>0 .and. withb ) .or. .not.moesp ) then
-    ldwork = max( ldwork, 2*ldunn + nn + id + 7*n )
-    if ( moesp ) ldwork = max( ldwork, ldunn + n + 6*mnobr, &
-                               ldunn + n +max( l + mnobr, &
-                               lnobr +max( 3*lnobr + 1, m ) ) )
+    minwrk = max( minwrk, 2*ldunn + nn + id + 7*n )
+    if ( moesp )minwrk = max( minwrk, ldunn + n + 6*mnobr, ldunn + n +max( l + mnobr, lnobr +max( 3*lnobr + 1, m ) ) )
   else
-    if( .not.n4sid ) iaw = n + nn
+    if( .not.n4sid )iaw = n + nn
   end if
   !
   if( .not.moesp .or. withco ) then
-    ldwork = max( ldwork,&
-                  ldunn + iaw + n2 + max( 5*n, lmmnol ), &
-                  id + 4*mnobrn + 1, &
-                  id + mnobrn + npl )
-
-    if( .not.moesp .and. m>0 .and. withb ) then
-      ldwork = max( ldwork, &
-                    mnobr*npl*( m*npl + 1 ) + max( npl**2, &
-                                                  4*m*npl + 1 ) )
-      ldwork = lnobr*n + ldwork
-    end if
+    minwrk = max( minwrk, ldunn + iaw + n2 + max( 5*n, lmmnol ),id + 4*mnobrn + 1, id + mnobrn + npl )
+    if( .not.moesp .and. m>0 .and. withb )minwrk = max( minwrk, mnobr*npl*( m*npl + 1 ) +max( npl**2, 4*m*npl + &
+      1 ) )
+    minwrk = lnobr*n + minwrk
   end if
   !
   if( withk ) then
-    ldwork = max( ldwork, &
-                  4*nn + 2*nl + ll + max( 3*l, nl ), &
-                  14*nn + 12*n + 5 )
+    minwrk = max( minwrk, 4*nn + 2*nl + ll + max( 3*l, nl ),14*nn + 12*n + 5 )
   end if
+  ldwork = minwrk;
 
 ! -- Compute LIWORK
   if (.not.n4sid .and. (m == 0 .or. withc .and. .not.withco)) then
