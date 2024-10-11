@@ -13,7 +13,7 @@ subroutine ib01ad_sizes(meth, alg, jobd, batch, conct, nobr, m, l, nsmp, ldr,  &
   logical  :: lsame
   external :: lsame
 ! -- Locals
-  integer  ::  lmnobr, lnobr, minwrk, mnobr, nobr21, nr, ns, nsmpsm
+  integer  ::  lmnobr, lnobr, minwrk, mnobr, nobr21, nr, ns
   logical  ::  chalg, connec, first, fqralg, interm, jobdm, last, moesp, n4sid,&
     onebch, qralg
 
@@ -39,7 +39,7 @@ subroutine ib01ad_sizes(meth, alg, jobd, batch, conct, nobr, m, l, nsmp, ldr,  &
   lmnobr = lnobr  + mnobr
   nr     = lmnobr + lmnobr
   nobr21 = 2*nobr - 1
-  nsmpsm = nsmpsm + nsmp
+
 
   ! -- Calculate LDR
   if (moesp .and. jobdm) then

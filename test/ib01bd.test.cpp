@@ -45,7 +45,7 @@ protected:
 
 
     int LDR, LIWORK, LDWORK;
-    ib01ad_ws(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,LDR,LIWORK,LDWORK);
+    ib01ad_sizes_(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,&LDR,&LIWORK,&LDWORK);
 
     R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
     fd_matrix SV{L*NOBR};
@@ -87,7 +87,7 @@ protected:
 
 
     int LDR, LIWORK, LDWORK;
-    ib01ad_ws(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,LDR,LIWORK,LDWORK);
+    ib01ad_sizes_(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,&LDR,&LIWORK,&LDWORK);
 
     R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
     fd_matrix SV{L*NOBR};
