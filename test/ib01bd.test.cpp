@@ -45,7 +45,7 @@ protected:
 
 
     int LDR, LIWORK, LDWORK;
-    ib01ad_sizes_(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,&LDR,&LIWORK,&LDWORK);
+    ib01ad_space_(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,&LDR,&LIWORK,&LDWORK);
 
     R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
     fd_matrix SV{L*NOBR};
@@ -87,7 +87,7 @@ protected:
 
 
     int LDR, LIWORK, LDWORK;
-    ib01ad_sizes_(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,&LDR,&LIWORK,&LDWORK);
+    ib01ad_space_(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,&LDR,&LIWORK,&LDWORK);
 
     R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
     fd_matrix SV{L*NOBR};
@@ -127,7 +127,7 @@ TEST_F(IB01BD_Test, MOESP_calc) {
   int LDWORK, LIWORK, LBWORK, LDA, LDB, LDC, LDD, LDRY, LDQ, LDS, LDK ;
   // ib01bd_ws(METH, JOB, JOBCK, NOBR, N, M, L, LDA, LDB, LDC, LDD, LDQ, LDRY, LDS,
   //           LDK, LDWORK, LIWORK, LBWORK);
-  ib01bd_sizes(METH, JOB, JOBCK, NOBR, N, M, L, &LDA, &LDC, &LDB, &LDD, &LDQ,
+  ib01bd_space_(METH, JOB, JOBCK, NOBR, N, M, L, &LDA, &LDC, &LDB, &LDD, &LDQ,
                &LDRY, &LDS, &LDK, &LIWORK, &LDWORK, &LBWORK);
 
   // -- Создание матриц
@@ -175,7 +175,7 @@ TEST_F(IB01BD_Test, sizes_calculation) {
         int LDWORK, LIWORK, LBWORK, LDA, LDB, LDC, LDD, LDRY, LDQ, LDS, LDK;
         // ib01bd_ws(METH, JOB, JOBCK, NOBR, N, M, L, LDA, LDB, LDC, LDD, LDQ,
         //           LDRY, LDS, LDK, LDWORK, LIWORK, LBWORK);
-        ib01bd_sizes(METH, JOB, JOBCK, NOBR, N, M, L, &LDA, &LDC, &LDB, &LDD, &LDQ,
+        ib01bd_space_(METH, JOB, JOBCK, NOBR, N, M, L, &LDA, &LDC, &LDB, &LDD, &LDQ,
                &LDRY, &LDS, &LDK, &LIWORK, &LDWORK, &LBWORK);
         // -- Создание матриц
         fd_matrix A{LDA, N}, B{LDB, M}, C{LDC, N}, D{LDD, M}, Q{LDQ, N},

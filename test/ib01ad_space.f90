@@ -1,8 +1,8 @@
 ! Created by vlasovdl on 11.10.24.
 
-subroutine ib01ad_sizes(meth, alg, jobd, batch, conct, nobr, m, l, nsmp, ldr,  &
+subroutine ib01ad_space(meth, alg, jobd, batch, conct, nobr, m, l, nsmp, ldr,  &
   liwork, ldwork) &
-  bind (c, name = 'ib01ad_sizes_')
+  bind (c, name = 'ib01ad_space_')
   use iso_c_binding, only : c_double, c_int, c_char
   implicit none
 ! -- Arguments
@@ -106,4 +106,4 @@ subroutine ib01ad_sizes(meth, alg, jobd, batch, conct, nobr, m, l, nsmp, ldr,  &
   end if
   !
   ldwork = minwrk
-end subroutine ib01ad_sizes
+end subroutine ib01ad_space

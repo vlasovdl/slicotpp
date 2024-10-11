@@ -1,8 +1,8 @@
 ! Created by vlasovdl on 10.10.24.
 
-subroutine ib01bd_sizes(meth, job, jobck, nobr, n, m, l, lda, ldc, ldb, ldd, &
+subroutine ib01bd_space(meth, job, jobck, nobr, n, m, l, lda, ldc, ldb, ldd, &
   ldq, ldry, lds, ldk, liwork, ldwork, lbwork) &
-  bind (c, name = 'ib01bd_sizes')
+  bind (c, name = 'ib01bd_space_')
   use iso_c_binding, only : c_double, c_int, c_char
   implicit none
 ! -- Arguments
@@ -127,4 +127,4 @@ subroutine ib01bd_sizes(meth, job, jobck, nobr, n, m, l, lda, ldc, ldb, ldd, &
     lbwork = 0
   end if
 
-end subroutine ib01bd_sizes
+end subroutine ib01bd_space
