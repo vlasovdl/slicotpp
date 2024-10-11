@@ -50,9 +50,14 @@ void ib01bd_ws(char METH, char JOB, char JOBCK, int NOBR, int N, int M, int L,
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern void ib01bd_sizes(char METH, char JOB, char JOBCK, int NOBR, int N, int M, int L,
-    int* LDA, int* LDC, int* LDB, int* LDD, int* LDQ, int* LDRY, int* LDS,
-    int* LDK, int* LIWORK, int* LDWORK, int* LBWORK);
+
+extern void ib01ad_sizes_(char METH, char ALG, char JOBD, char BATCH,
+  char CONCT, int NOBR, int M, int L, int *LDR, int *LIWORK, int *LDWORK);
+
+extern void ib01bd_sizes(char METH, char JOB, char JOBCK, int NOBR, int N,
+  int M, int L, int *LDA, int *LDC, int *LDB, int *LDD, int *LDQ, int *LDRY,
+  int *LDS, int *LDK, int *LIWORK, int *LDWORK, int *LBWORK);
+
 #ifdef __cplusplus
 }
 #endif

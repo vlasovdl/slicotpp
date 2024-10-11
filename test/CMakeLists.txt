@@ -4,9 +4,9 @@ set(CMAKE_CXX_STANDARD 14)
 # Подключаем Google Test
 include(FetchContent)
 FetchContent_Declare(
-        googletest
-        GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG        v1.15.2
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG        v1.15.2
 )
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
@@ -15,13 +15,14 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 add_executable(unit_test
-        read_identification_data.hpp
-        read_identification_data.cpp
-        f_matrix.test.cpp
-        ib01ad.test.cpp
-        ib01bd.test.cpp
-        ib01.tools.hpp
-        ib01.tools.cpp
+  read_identification_data.hpp
+  read_identification_data.cpp
+  f_matrix.test.cpp
+  ib01ad.test.cpp
+  ib01bd.test.cpp
+  ib01.tools.hpp
+  ib01.tools.cpp
+  ib01ad_sizes.f90
   ib01bd_sizes.f90
 )
 
