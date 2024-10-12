@@ -1,6 +1,6 @@
 ! Created by vlasovdl on 11.10.24.
 
-subroutine ib01ad_space(meth, alg, jobd, batch, conct, nobr, m, l, nsmp, ldr,  &
+subroutine ib01ad_space(meth, alg, jobd, batch, conct, nobr, m, l, nsmp, &
   liwork, ldwork) &
   bind (c, name = 'ib01ad_space_')
   use iso_c_binding, only : c_double, c_int, c_char
@@ -8,12 +8,12 @@ subroutine ib01ad_space(meth, alg, jobd, batch, conct, nobr, m, l, nsmp, ldr,  &
 ! -- Arguments
   character (c_char), intent(in), value :: meth, alg, jobd, batch, conct
   integer (c_int), intent(in), value    :: nobr, m, l, nsmp
-  integer (c_int), intent(out)          :: ldr, liwork, ldwork
+  integer (c_int), intent(out)          :: liwork, ldwork
 ! -- External functions
   logical  :: lsame
   external :: lsame
 ! -- Locals
-  integer  ::  lmnobr, lnobr, minwrk, mnobr, nobr21, nr, ns
+  integer  ::  lmnobr, lnobr, minwrk, mnobr, nobr21, nr, ns, ldr
   logical  ::  chalg, connec, first, fqralg, interm, jobdm, last, moesp, n4sid,&
     onebch, qralg
 

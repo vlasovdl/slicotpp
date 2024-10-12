@@ -1,15 +1,13 @@
 ! Created by vlasovdl on 10.10.24.
 
-subroutine ib01bd_space(meth, job, jobck, nobr, n, m, l, lda, ldc, ldb, ldd, &
-  ldq, ldry, lds, ldk, liwork, ldwork, lbwork) &
+subroutine ib01bd_space(meth, job, jobck, nobr, n, m, l, liwork, ldwork, lbwork) &
   bind (c, name = 'ib01bd_space_')
   use iso_c_binding, only : c_double, c_int, c_char
   implicit none
 ! -- Arguments
   character (c_char), intent(in), value :: meth, job, jobck
   integer (c_int),    intent(in), value :: nobr, n, m, l
-  integer (c_int),    intent(out)       :: lda, ldc, ldb, ldd, ldq, ldry, lds, &
-                                           ldk, liwork, ldwork, lbwork
+  integer (c_int),    intent(out)       :: liwork, ldwork, lbwork
 ! -- Locals
   integer :: i, ia, iaw, ic, id, ierr, ifact, ig, ik, io,iq, ir, is, it, iv, &
              iwarnl, iwi, iwr, ix,jwork, ldunn, ll, lmmnol, lmnobr, lnobr, &
@@ -42,42 +40,7 @@ subroutine ib01bd_space(meth, job, jobck, nobr, n, m, l, lda, ldc, ldb, ldd, &
   nn     = n*n
   nl     = n*l
   ll     = l*l
-  ldwork = 1
 
-! -- Compute LDA, LDC
-  if ( withc .or. ( withb .and. .not.moesp ) ) then
-    lda = n; ldc = l
-  else
-    lda = 1; ldc = 1
-  end if
-
-! -- Compute LDB
-  if ( m > 0 .and. withb ) then
-    ldb = n
-  else
-    ldb = 1
-  end if
-
-! -- Compute LDD
-  if (m > 0 .and. withd) then
-    ldd = l
-  else
-    ldd = 1
-  end if
-
-! -- Compute LDQ, LDRY, LDS, LDK
-  if (withco) then
-    ldq = n; ldry = l; lds = n
-  else
-    ldq = 1; ldry = 1; lds = 1
-  end if
-
-! -- Compute LDK
-  if (withk) then
-    ldk = n
-  else
-    ldk = 1;
-  end if
 
 ! -- Compute ldwork
   iaw    = 0
