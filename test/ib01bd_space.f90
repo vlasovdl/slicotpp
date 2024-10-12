@@ -16,15 +16,19 @@ subroutine ib01bd_space(meth, job, jobck, nobr, n, m, l, lda, ldc, ldb, ldd, &
              maxwrk, minwrk, mnobr, mnobrn, n2, nl, nn, npl, nr
   logical :: combin, moesp, n4sid, withal, withb, withc,withco, withd, withk
 
-  moesp  = meth  == 'M'
-  n4sid  = meth  == 'N'
-  combin = meth  == 'C'
-  withal =  job  == 'A'
-  withc  =  job  == 'C' .or. withal
-  withd  =  job  == 'D' .or. withal
-  withb  =  job  == 'B' .or. withd
-  withk  = jobck == 'K'
-  withco = jobck == 'C' .or. withk
+! -- Externals
+  logical  lsame
+  external lsame
+
+  moesp  = lsame (  meth, 'M')
+  n4sid  = lsame (  meth, 'N')
+  combin = lsame (  meth, 'C')
+  withal = lsame (   job, 'A')
+  withc  = lsame (   job, 'C') .or. withal
+  withd  = lsame (   job, 'D') .or. withal
+  withb  = lsame (   job, 'B') .or. withd
+  withk  = lsame ( jobck, 'K')
+  withco = lsame ( jobck, 'C') .or. withk
 
   mnobr  = m*nobr
   lnobr  = l*nobr
@@ -107,7 +111,7 @@ subroutine ib01bd_space(meth, job, jobck, nobr, n, m, l, lda, ldc, ldb, ldd, &
   ldwork = minwrk;
 
 ! -- Compute LIWORK
-  if (.not.n4sid .and. (m == 0 .or. withc .and. .not.withco)) then
+  if (.not.n4sid .and. m == 0 .or. lsame(job,'C') .and. lsame(jobck,'N')) then
     liwork = n
   elseif (.not.n4sid .and. withc .and. withk) then
     liwork = m*nobr + n

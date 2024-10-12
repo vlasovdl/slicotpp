@@ -111,9 +111,9 @@ public:
 
 TEST_F(IB01BD_Test, MOESP_calc) {
  // -- Конфигурация расчета
-  char   METH  = 'N';
-  char   JOB   = 'B';
-  char   JOBCK = 'C';
+  char   METH  = 'M';
+  char   JOB   = 'A';
+  char   JOBCK = 'N';
   double TOL   = -1.0;
 
   // -- Параметры, определяемые IB01AD
@@ -125,8 +125,6 @@ TEST_F(IB01BD_Test, MOESP_calc) {
 
   // -- Расчет рабочего пространства
   int LDWORK, LIWORK, LBWORK, LDA, LDB, LDC, LDD, LDRY, LDQ, LDS, LDK ;
-  // ib01bd_ws(METH, JOB, JOBCK, NOBR, N, M, L, LDA, LDB, LDC, LDD, LDQ, LDRY, LDS,
-  //           LDK, LDWORK, LIWORK, LBWORK);
   ib01bd_space_(METH, JOB, JOBCK, NOBR, N, M, L, &LDA, &LDC, &LDB, &LDD, &LDQ,
                &LDRY, &LDS, &LDK, &LIWORK, &LDWORK, &LBWORK);
 
