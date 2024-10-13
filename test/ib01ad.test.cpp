@@ -250,7 +250,7 @@ TEST_F(IB01AD_Test, N4SID_QR) {
 }
 
 TEST_F(IB01AD_Test, LDWORK_Calculation) {
-  GTEST_SKIP();
+  // GTEST_SKIP();
   // -- Конфигурация расчета
   std::vector<char> METH_V  {'M', 'N'};
   std::vector<char> ALG_V   {'C', 'F', 'Q'};
