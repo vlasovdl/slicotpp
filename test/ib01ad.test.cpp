@@ -7,7 +7,7 @@
 #include <cstdio>
 #include <fstream>
 
-#include <vlasovdl/slicot.h>
+#include <vlasovdl/slicot_.h>
 #include <vlasovdl/f_matrix.hpp>
 #include "read_identification_data.hpp"
 #include "ib01.tools.hpp"
