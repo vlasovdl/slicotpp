@@ -2,16 +2,19 @@
 // Created by vlasovdl on 12.10.24.
 //
 #include <gmock/internal/gmock-internal-utils.h>
-#include <gtest/gtest.h>
 #include <gtest/gtest-matchers.h>
+#include <gtest/gtest.h>
 
-#include <vlasovdl/slicot_.h>
 #include <vlasovdl/f_matrix.hpp>
+#include <vlasovdl/slicot_.h>
 #include "read_identification_data.hpp"
-#include "ib01.tools.hpp"
+
 
 #define str(s) #s
 #define xstr(s) str(s)
+const std::string data_path = xstr(DATA_PATH);
+#undef str
+#undef xstr
 
 using namespace vlasovdl;
 
@@ -22,7 +25,6 @@ protected:
   fd_matrix U, Y;
   void ib01ad_calc_MOESP(int& NOBR, int& M, int& L, int& NSMPL, int& N,
     fd_matrix& R) {
-    const std::string data_path {xstr(DATA_PATH)};
     const int n = read_identification_data(U, Y,
                                            data_path + "/ib01ad.test.data.txt");
     ASSERT_NE(n, 0) << "Can't read data file";
@@ -63,7 +65,6 @@ protected:
   }
   void ib01ad_calc_N4SID(int& NOBR, int& M, int& L, int& NSMPL, int& N,
     fd_matrix& R) {
-    const std::string data_path {xstr(DATA_PATH)};
     const int n = read_identification_data(U, Y,
                                            data_path + "/ib01ad.test.data.txt");
     ASSERT_NE(n, 0) << "Can't read data file";

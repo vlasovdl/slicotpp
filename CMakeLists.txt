@@ -172,12 +172,21 @@ set ( SLICOT_FSOURCE
 )
 
 add_library(slicotpp OBJECT
-        ${SLICOT_FSOURCE}
-        src/XERBLA.f
-        src/ftruefalse.f
+  ${SLICOT_FSOURCE}
+  src/XERBLA.f
+  src/ftruefalse.f
+  src/ib01ad_space.f90
+  src/ib01ad_sizes.f90
+  src/ib01bd_space.f90
+  src/ib01bd_sizes.f90
+# src/ib01cd_minsmp.f90
+  src/ib01cd_space.f90
+  src/ib01cd_sizes.f90
+  src/XERBLA.f
+  src/ftruefalse.f
 )
 target_link_libraries(slicotpp PUBLIC LAPACK::LAPACK)
-target_include_directories(slicotpp INTERFACE ./include)
+target_include_directories(slicotpp PUBLIC ./include)
 
 # Конфигурация тестов
 # По умолчанию тесты не строятся

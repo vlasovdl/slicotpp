@@ -22,13 +22,6 @@ add_executable(unit_test
   ib01bd.test.cpp
   ib01.tools.hpp
 # ib01.tools.cpp
-  ib01ad_space.f90
-  ib01ad_sizes.f90
-  ib01bd_space.f90
-  ib01bd_sizes.f90
-  ib01cd_minsmp.f90
-  ib01cd_space.f90
-  ib01cd_sizes.f90
   ib01cd.test.cpp
 )
 

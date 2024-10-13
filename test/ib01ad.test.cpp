@@ -10,10 +10,13 @@
 #include <vlasovdl/slicot_.h>
 #include <vlasovdl/f_matrix.hpp>
 #include "read_identification_data.hpp"
-#include "ib01.tools.hpp"
+
 
 #define str(s) #s
 #define xstr(s) str(s)
+const std::string data_path = xstr(DATA_PATH);
+#undef str
+#undef xstr
 
 using namespace vlasovdl;
 
@@ -48,7 +51,6 @@ public:
                   INFO(0) {}
 
   void SetUp() override {
-    const std::string data_path {xstr(DATA_PATH)};
     const int n = read_identification_data(U, Y,
                                            data_path + "/ib01ad.test.data.txt");
     ASSERT_NE(n, 0) << "Can't read data file";
