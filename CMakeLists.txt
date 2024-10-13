@@ -80,8 +80,8 @@ set ( SLICOT_FSOURCE
         SLICOT-Reference/src/BD01AD.f  SLICOT-Reference/src/MB03FD.f  SLICOT-Reference/src/MC03MD.f  SLICOT-Reference/src/SG03BX.f
         SLICOT-Reference/src/BD02AD.f  SLICOT-Reference/src/MB03FZ.f  SLICOT-Reference/src/MC03ND.f  SLICOT-Reference/src/SG03BY.f
         SLICOT-Reference/src/DE01OD.f  SLICOT-Reference/src/MB03GD.f  SLICOT-Reference/src/MC03NX.f  SLICOT-Reference/src/SG03BZ.f
-        SLICOT-Reference/src/DE01PD.f  SLICOT-Reference/src/MB03GZ.f  SLICOT-Reference/src/MC03NY.f  SLICOT-Reference/src/SLCT_DLATZM.f
-        SLICOT-Reference/src/delctg.f  SLICOT-Reference/src/MB03HD.f  SLICOT-Reference/src/MD03AD.f  SLICOT-Reference/src/SLCT_ZLATZM.f
+        SLICOT-Reference/src/DE01PD.f  SLICOT-Reference/src/MB03GZ.f  SLICOT-Reference/src/MC03NY.f
+        SLICOT-Reference/src/delctg.f  SLICOT-Reference/src/MB03HD.f  SLICOT-Reference/src/MD03AD.f
         SLICOT-Reference/src/DF01MD.f  SLICOT-Reference/src/MB03HZ.f  SLICOT-Reference/src/MD03BA.f  SLICOT-Reference/src/TB01ID.f
         SLICOT-Reference/src/DG01MD.f  SLICOT-Reference/src/MB03ID.f  SLICOT-Reference/src/MD03BB.f  SLICOT-Reference/src/TB01IZ.f
         SLICOT-Reference/src/DG01ND.f  SLICOT-Reference/src/MB03IZ.f  SLICOT-Reference/src/MD03BD.f  SLICOT-Reference/src/TB01KD.f
@@ -168,6 +168,7 @@ set ( SLICOT_FSOURCE
         SLICOT-Reference/src/MB01SS.f  SLICOT-Reference/src/MB04OW.f  SLICOT-Reference/src/SB04OD.f  SLICOT-Reference/src/UE01MD.f
         SLICOT-Reference/src/MB01TD.f  SLICOT-Reference/src/MB04OX.f  SLICOT-Reference/src/SB04OW.f  SLICOT-Reference/src/zelctg.f
         SLICOT-Reference/src/MB01UD.f  SLICOT-Reference/src/MB04OY.f  SLICOT-Reference/src/SB04PD.f
+        SLICOT-Reference/src_aux/dlatzm.f SLICOT-Reference/src_aux/zlatzm.f
 )
 
 add_library(slicotpp OBJECT
