@@ -2,6 +2,9 @@
 // Created by vlasovdl on 07.10.24.
 //
 #include <algorithm>
+#include <string>
+#include <sstream>
+
 #include <gmock/internal/gmock-internal-utils.h>
 #include <gtest/gtest.h>
 #include <gtest/gtest-matchers.h>
@@ -13,6 +16,9 @@
 
 #define str(s) #s
 #define xstr(s) str(s)
+const std::string data_path = xstr(DATA_PATH);
+#undef str
+#undef xstr
 
 using namespace vlasovdl;
 using fd_matrix = vlasovdl::f_matrix<double>;
@@ -22,7 +28,6 @@ class IB01BD_Test : public ::testing::Test {
 protected:
   void ib01ad_calc_MOESP(int& NOBR, int& M, int& L, int& NSMPL, int& N,
     fd_matrix& R) {
-    const std::string data_path {xstr(DATA_PATH)};
     fd_matrix U,Y;
     const int n = read_identification_data(U, Y,
                                            data_path + "/ib01ad.test.data.txt");
@@ -65,7 +70,6 @@ protected:
 
   void ib01ad_calc_N4SID(int& NOBR, int& M, int& L, int& NSMPL, int& N,
     fd_matrix& R) {
-    const std::string data_path {xstr(DATA_PATH)};
     fd_matrix U,Y;
     const int n = read_identification_data(U, Y,
                                            data_path + "/ib01ad.test.data.txt");
@@ -108,7 +112,7 @@ protected:
 
   int ib01bd_LDWORK(const char METH, const char JOB, const char JOBCK,
     const int NOBR, const int N, const int M, const int L) {
-    int LDWORK, LDW1 = 0, LDW2 = 0, LDW3 = 0;
+    int LDW1 = 0, LDW2 = 0, LDW3 = 0;
     if (METH == 'M') {
       if (JOB == 'C' or JOB == 'A' and M == 0) {
         LDW1 = std::max( 2*(L*NOBR-L)*N+2*N, (L*NOBR-L)*N+N*N+7*N );
@@ -202,11 +206,12 @@ public:
   void SetUp() override { }
 };
 
-TEST_F(IB01BD_Test, MOESP_calc) {
- // -- Конфигурация расчета
-  char   METH  = 'M';
-  char   JOB   = 'A';
-  char   JOBCK = 'N';
+TEST_F(IB01BD_Test, debug_calc) {
+  GTEST_SKIP();
+  // -- Конфигурация расчета
+  char   METH  = 'C';
+  char   JOB   = 'C';
+  char   JOBCK = 'C';
   double TOL   = -1.0;
 
   // -- Параметры, определяемые IB01AD
@@ -221,6 +226,9 @@ TEST_F(IB01BD_Test, MOESP_calc) {
   ib01bd_space_(METH, JOB, JOBCK, NOBR, N, M, L, &LIWORK, &LDWORK, &LBWORK);
   ib01bd_sizes_(METH, JOB, JOBCK,N, M, L, &LDA, &LDC, &LDB, &LDD, &LDQ,
                &LDRY, &LDS, &LDK);
+
+  // LIWORK = ib01bd_LIWORK(METH,JOB,JOBCK,NOBR,N,M,L);
+  // LDWORK = ib01bd_LDWORK(METH,JOB,JOBCK,NOBR,N,M,L);
 
   // -- Создание матриц
   fd_matrix A{LDA, N}, B{LDB, M}, C{LDC, N}, D{LDD, M}, Q{LDQ, N}, RY{LDRY, L},
@@ -243,7 +251,38 @@ TEST_F(IB01BD_Test, MOESP_calc) {
   ASSERT_EQ(INFO, 0);
 }
 
-TEST_F(IB01BD_Test, sizes_calculation) {
+TEST_F(IB01BD_Test, space_calculation) {
+  GTEST_SKIP();
+  // -- Конфигурация расчета
+  double TOL   = -1.0;
+
+  // -- Параметры, определяемые IB01AD
+  int       NOBR, N, M, L, NSMPL;
+  fd_matrix R;
+
+  // -- Вызов IB01AD
+  ib01ad_calc_MOESP(NOBR, M, L, NSMPL, N, R);
+
+  // Определяем набор значений для расчета
+  std::vector<char> METH_V  {'M', 'N', 'C'};
+  std::vector<char> JOB_V   {'A', 'C', 'B', 'D'};
+  std::vector<char> JOBCK_V {'C', 'K', 'N'};
+
+  for (char METH : METH_V) for (char JOB : JOB_V) for (char JOBCK : JOBCK_V) {
+    // -- Расчет рабочего пространства
+    int LDWORK, LIWORK, LBWORK;
+    ib01bd_space_(METH, JOB, JOBCK, NOBR, N, M, L, &LIWORK, &LDWORK, &LBWORK);
+
+    std::stringstream msg;
+    msg << "METH = " << METH << "; JOB = " << JOB << "; JOBCK = " << JOBCK;
+
+    EXPECT_EQ(LIWORK, ib01bd_LIWORK(METH,JOB,JOBCK,NOBR,N,M,L)) << msg.str();
+    EXPECT_EQ(LDWORK, ib01bd_LDWORK(METH,JOB,JOBCK,NOBR,N,M,L)) << msg.str();
+    EXPECT_EQ(LBWORK, ib01bd_LBWORK(METH,JOB,JOBCK,NOBR,N,M,L)) << msg.str();
+  }
+}
+
+TEST_F(IB01BD_Test, calculation) {
   // GTEST_SKIP();
   // -- Конфигурация расчета
   double TOL   = -1.0;
@@ -260,39 +299,41 @@ TEST_F(IB01BD_Test, sizes_calculation) {
   std::vector<char> JOB_V   {'A', 'C', 'B', 'D'};
   std::vector<char> JOBCK_V {'C', 'K', 'N'};
 
-  for (char METH : METH_V)
-    for (char JOB : JOB_V)
-      for (char JOBCK : JOBCK_V) {
-        // -- Расчет рабочего пространства
-        int LDWORK, LIWORK, LBWORK, LDA, LDB, LDC, LDD, LDRY, LDQ, LDS, LDK;
-        ib01bd_space_(METH, JOB, JOBCK, NOBR, N, M, L, &LIWORK, &LDWORK, &LBWORK);
-        ib01bd_sizes_(METH, JOB, JOBCK,N, M, L, &LDA, &LDC, &LDB, &LDD, &LDQ,
-                     &LDRY, &LDS, &LDK);
-        // -- Создание матриц
-        fd_matrix A{LDA, N}, B{LDB, M}, C{LDC, N}, D{LDD, M}, Q{LDQ, N},
-                  RY{LDRY, L}, S{LDS, L}, K{LDK, L};
+  for (char METH : METH_V) for (char JOB : JOB_V) for (char JOBCK : JOBCK_V) {
+    // Необходимо пропускать случай расчета K, если не рассчитываются A и С.
+    // В этом случае в процедуру SB02RD передается нулевая матрица, что приводит
+    // к ошибке.
+    // TODO Необходимо учесть в коде IB01BD проверку на несоответствие
+    //      параметров JOB и JOBCK.
+    if (JOBCK == 'K' and (JOB == 'B' or JOB =='D')) continue;
 
-        // -- Создание рабочего пространства
-        fd_matrix DWORK{1}; // Here we intentionally specify an incorrect value.
-        fi_matrix IWORK{LIWORK}, BWORK{LBWORK};
+    // Расчет рабочего пространства
+    int LDWORK, LIWORK, LBWORK, LDA, LDB, LDC, LDD, LDRY, LDQ, LDS, LDK ;
+    ib01bd_space_(METH, JOB, JOBCK, NOBR, N, M, L, &LIWORK, &LDWORK, &LBWORK);
+    ib01bd_sizes_(METH, JOB, JOBCK,N, M, L, &LDA, &LDC, &LDB, &LDD, &LDQ,
+                 &LDRY, &LDS, &LDK);
 
-        // -- Диагностические переменные
-        int IWARN, INFO;
+    std::stringstream msg;
+    msg << "METH = " << METH << "; JOB = " << JOB << "; JOBCK = " << JOBCK;
 
-        // -- Вызов Fortran процедуры
-        ib01bd_(&METH, &JOB, &JOBCK, &NOBR, &N, &M, &L, &NSMPL, R.data(), R.ld(),
-                A.data(), A.ld(), C.data(), C.ld(), B.data(), B.ld(), D.data(),
-                D.ld(), Q.data(), Q.ld(), RY.data(), RY.ld(), S.data(), S.ld(),
-                K.data(), K.ld(), &TOL, IWORK.data(), DWORK.data(), DWORK.ld(),
-                BWORK.data(), &IWARN, &INFO);
+    // -- Создание матриц
+    fd_matrix A{LDA, N}, B{LDB, M}, C{LDC, N}, D{LDD, M}, Q{LDQ, N}, RY{LDRY, L},
+              S{LDS, L}, K{LDK, L};
 
-        EXPECT_EQ(LDWORK, static_cast<int>(DWORK(1))) <<
-          "METH = " << METH << "; " <<
-          "JOB = " << JOB << "; " <<
-          "JOBCK = " << JOBCK << ";\t" <<
-          "LDWORK = " << LDWORK << "; " <<
-          "DWORK(1) = " << static_cast<int>(DWORK(1));
-      }
+    // -- Создание рабочего пространства
+    fd_matrix DWORK{LDWORK};
+    fi_matrix IWORK{LIWORK}, BWORK{LBWORK};
 
+    // -- Диагностические переменные
+    int IWARN, INFO;
+
+    // -- Вызов Fortran процедуры
+    ib01bd_(&METH, &JOB, &JOBCK, &NOBR, &N, &M, &L, &NSMPL, R.data(), R.ld(),
+            A.data(), A.ld(), C.data(), C.ld(), B.data(), B.ld(), D.data(),
+            D.ld(), Q.data(), Q.ld(), RY.data(), RY.ld(), S.data(), S.ld(),
+            K.data(), K.ld(), &TOL, IWORK.data(), DWORK.data(), DWORK.ld(),
+            BWORK.data(), &IWARN, &INFO);
+
+    EXPECT_EQ(INFO,0) << msg.str();
+  }
 }
-

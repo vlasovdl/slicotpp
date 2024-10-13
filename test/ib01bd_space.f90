@@ -76,13 +76,17 @@ subroutine ib01bd_space(meth, job, jobck, nobr, n, m, l, liwork, ldwork, lbwork)
 ! -- Compute LIWORK
   if (.not.n4sid .and. m == 0 .or. lsame(job,'C') .and. lsame(jobck,'N')) then
     liwork = n
-  elseif (.not.n4sid .and. withc .and. withk) then
+  end if
+  if (.not.n4sid .and. withc .and. withco) then
     liwork = m*nobr + n
-  elseif (moesp .and. withb .and. .not.withco ) then
+  end if
+  if (moesp .and. withb .and. .not.withco ) then
     liwork = max( l*nobr, m*nobr )
-  elseif (moesp .and. withb .and. withco ) then
+  end if
+  if (moesp .and. withb .and. withco ) then
     liwork = max( l*nobr, m*nobr + n)
-  elseif (n4sid .or. combin .and. withb) then
+  end if
+  if (n4sid .or. combin .and. withb) then
     liwork = max(m*nobr+n, m*(n+l))
   end if
   if (withk) liwork = max (liwork, n*n)
