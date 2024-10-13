@@ -28,6 +28,7 @@ add_executable(unit_test
   ib01bd_sizes.f90
   ib01cd_minsmp.f90
   ib01cd_space.f90
+  ib01cd_sizes.f90
   ib01cd.test.cpp
 )
 

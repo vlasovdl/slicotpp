@@ -67,6 +67,9 @@ extern void ib01bd_sizes_(char METH, char JOB, char JOBCK, int N,
 extern void ib01cd_space_(char JOBX0, char COMUSE, char JOB, int N, int M,
   int L, int NSMP, int* LIWORK, int* LDWORK);
 
+  extern void ib01cd_sizes_(char JOBX0, char COMUSE, char JOB, int N, int M,
+    int L, int NSMP, int* LDX0, int* LDV);
+
 extern void ib01cd_minsmp_(char JOBX0, char COMUSE, char JOB, int N, int M,
     int L, int* MINSMP);
 
