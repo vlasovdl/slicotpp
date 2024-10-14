@@ -19,11 +19,12 @@ extern void ib01ad_(const char* METH, const char* ALG, const char* JOBD,
   const double* RCOND, const double* TOL, int* IWORK, double* DWORK,
   const int* LDWORK, int* IWARN, int* INFO);
 
-extern void ib01ad_space_(char METH, char ALG, char JOBD, char BATCH,
-  char CONCT, int NOBR, int M, int L, int NSMP, int *LIWORK, int *LDWORK);
+extern void ib01ad_space_(const char *METH, const char *ALG, const char *JOBD,
+  const char *BATCH, const char *CONCT, const int *NOBR, const int *M,
+  const int *L, const int *NSMP, int *LIWORK, int *LDWORK);
 
-extern void ib01ad_sizes_(char METH, char JOBD, int NOBR, int M, int L,
-  int* LDR, int* LDSV);
+extern void ib01ad_sizes_(const char *METH, const char *JOBD, const int *NOBR,
+  const int *M, const int *L, int* LDR, int* LDSV);
 
 /**
 * Estimate the system matrices A, C, B, and D, the noise covariance matrices Q,
@@ -39,12 +40,13 @@ extern void ib01bd_(const char* METH, const char* JOB, const char* JOBCK,
   const int* LDS, double* K, const int* LDK, const double* TOL, int* IWORK,
   double* DWORK, const int* LDWORK, int* BWORK, int* IWARN, int* INFO);
 
-extern void ib01bd_space_(char METH, char JOB, char JOBCK, int NOBR, int N,
-  int M, int L, int *LIWORK, int *LDWORK, int *LBWORK);
+extern void ib01bd_space_(const char *METH, const char *JOB, const char *JOBCK,
+  const int *NOBR, const int *N, const int *M, const int *L, int *LIWORK,
+  int *LDWORK, int *LBWORK);
 
-extern void ib01bd_sizes_(char METH, char JOB, char JOBCK, int N,
-  int M, int L, int *LDA, int *LDC, int *LDB, int *LDD, int *LDQ, int *LDRY,
-  int *LDS, int *LDK);
+extern void ib01bd_sizes_(const char *METH, const char *JOB, const char *JOBCK,
+  const int *N, const int *M, const int *L, int *LDA, int *LDC, int *LDB,
+  int *LDD, int *LDQ, int *LDRY, int *LDS, int *LDK);
 
 /**
 * Estimate the initial state and, optionally, the system matrices B  and  D
@@ -59,11 +61,13 @@ extern void ib01cd_(const char* JOBX0, const char* COMUSE, const char* JOB,
   const int* LDY, double* X0, double* V, const int* LDV, const double* TOL,
   int* IWORK, double* DWORK, const int* LDWORK, int* IWARN, int* INFO);
 
-extern void ib01cd_space_(char JOBX0, char COMUSE, char JOB, int N, int M,
-  int L, int NSMP, int* LIWORK, int* LDWORK);
+extern void ib01cd_space_(const char *JOBX0, const char *COMUSE,
+  const char *JOB, const int *N, const int *M, const int *L, const int *NSMP,
+  int* LIWORK, int* LDWORK);
 
-extern void ib01cd_sizes_(char JOBX0, char COMUSE, char JOB, int N, int M,
-  int L, int NSMP, int* LDX0, int* LDV);
+extern void ib01cd_sizes_(const char *JOBX0, const char *COMUSE,
+  const char *JOB, const int *N, const int *M, const int *L, const int *NSMP,
+  int* LDX0, int* LDV);
 
 #ifdef __cplusplus
 }

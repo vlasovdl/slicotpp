@@ -51,8 +51,8 @@ protected:
 
 
     int LDR=0, LDSV = 0, LIWORK=0, LDWORK=0;
-    ib01ad_space_(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,&LIWORK,&LDWORK);
-    ib01ad_sizes_(METH,ALG,NOBR,M,L,&LDR,&LDSV);
+    ib01ad_space_(&METH,&ALG,&JOBD,&BATCH,&CONCT,&NOBR,&M,&L,&NSMP,&LIWORK,&LDWORK);
+    ib01ad_sizes_(&METH,&ALG,&NOBR,&M,&L,&LDR,&LDSV);
 
     R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
     fd_matrix SV{L*NOBR};
@@ -93,8 +93,8 @@ protected:
 
 
     int LDR=0, LDSV = 0, LIWORK=0, LDWORK=0;
-    ib01ad_space_(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,&LIWORK,&LDWORK);
-    ib01ad_sizes_(METH,ALG,NOBR,M,L,&LDR,&LDSV);
+    ib01ad_space_(&METH,&ALG,&JOBD,&BATCH,&CONCT,&NOBR,&M,&L,&NSMP,&LIWORK,&LDWORK);
+    ib01ad_sizes_(&METH,&ALG,&NOBR,&M,&L,&LDR,&LDSV);
 
     R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
     fd_matrix SV{L*NOBR};
@@ -223,9 +223,9 @@ TEST_F(IB01BD_Test, debug_calc) {
 
   // -- Расчет рабочего пространства
   int LDWORK, LIWORK, LBWORK, LDA, LDB, LDC, LDD, LDRY, LDQ, LDS, LDK ;
-  ib01bd_space_(METH, JOB, JOBCK, NOBR, N, M, L, &LIWORK, &LDWORK, &LBWORK);
-  ib01bd_sizes_(METH, JOB, JOBCK,N, M, L, &LDA, &LDC, &LDB, &LDD, &LDQ,
-               &LDRY, &LDS, &LDK);
+  ib01bd_space_(&METH, &JOB, &JOBCK, &NOBR, &N, &M, &L, &LIWORK, &LDWORK, &LBWORK);
+  ib01bd_sizes_(&METH, &JOB, &JOBCK,&N, &M, &L, &LDA, &LDC, &LDB, &LDD, &LDQ,
+                &LDRY, &LDS, &LDK);
 
   // LIWORK = ib01bd_LIWORK(METH,JOB,JOBCK,NOBR,N,M,L);
   // LDWORK = ib01bd_LDWORK(METH,JOB,JOBCK,NOBR,N,M,L);
@@ -271,7 +271,7 @@ TEST_F(IB01BD_Test, space_calculation) {
   for (char METH : METH_V) for (char JOB : JOB_V) for (char JOBCK : JOBCK_V) {
     // -- Расчет рабочего пространства
     int LDWORK, LIWORK, LBWORK;
-    ib01bd_space_(METH, JOB, JOBCK, NOBR, N, M, L, &LIWORK, &LDWORK, &LBWORK);
+    ib01bd_space_(&METH, &JOB, &JOBCK, &NOBR, &N, &M, &L, &LIWORK, &LDWORK, &LBWORK);
 
     std::stringstream msg;
     msg << "METH = " << METH << "; JOB = " << JOB << "; JOBCK = " << JOBCK;
@@ -309,9 +309,9 @@ TEST_F(IB01BD_Test, calculation) {
 
     // Расчет рабочего пространства
     int LDWORK, LIWORK, LBWORK, LDA, LDB, LDC, LDD, LDRY, LDQ, LDS, LDK ;
-    ib01bd_space_(METH, JOB, JOBCK, NOBR, N, M, L, &LIWORK, &LDWORK, &LBWORK);
-    ib01bd_sizes_(METH, JOB, JOBCK,N, M, L, &LDA, &LDC, &LDB, &LDD, &LDQ,
-                 &LDRY, &LDS, &LDK);
+    ib01bd_space_(&METH, &JOB, &JOBCK, &NOBR, &N, &M, &L, &LIWORK, &LDWORK, &LBWORK);
+    ib01bd_sizes_(&METH, &JOB, &JOBCK,&N, &M, &L, &LDA, &LDC, &LDB, &LDD, &LDQ,
+                  &LDRY, &LDS, &LDK);
 
     std::stringstream msg;
     msg << "METH = " << METH << "; JOB = " << JOB << "; JOBCK = " << JOBCK;

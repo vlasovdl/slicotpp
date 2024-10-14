@@ -47,8 +47,8 @@ protected:
 
 
     int LDR=0, LDSV = 0, LIWORK=0, LDWORK=0;
-    ib01ad_space_(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,&LIWORK,&LDWORK);
-    ib01ad_sizes_(METH,ALG,NOBR,M,L,&LDR,&LDSV);
+    ib01ad_space_(&METH,&ALG,&JOBD,&BATCH,&CONCT,&NOBR,&M,&L,&NSMP,&LIWORK,&LDWORK);
+    ib01ad_sizes_(&METH,&ALG,&NOBR,&M,&L,&LDR,&LDSV);
 
     R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
     fd_matrix SV{L*NOBR};
@@ -87,8 +87,8 @@ protected:
 
 
     int LDR=0, LDSV = 0, LIWORK=0, LDWORK=0;
-    ib01ad_space_(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,&LIWORK,&LDWORK);
-    ib01ad_sizes_(METH,ALG,NOBR,M,L,&LDR,&LDSV);
+    ib01ad_space_(&METH,&ALG,&JOBD,&BATCH,&CONCT,&NOBR,&M,&L,&NSMP,&LIWORK,&LDWORK);
+    ib01ad_sizes_(&METH,&ALG,&NOBR,&M,&L,&LDR,&LDSV);
 
     R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
     fd_matrix SV{L*NOBR};
@@ -119,9 +119,9 @@ protected:
 
     // -- Расчет рабочего пространства
     int LDWORK, LIWORK, LBWORK, LDA, LDB, LDC, LDD, LDRY, LDQ, LDS, LDK ;
-    ib01bd_space_(METH, JOB, JOBCK, NOBR, N, M, L,&LIWORK, &LDWORK, &LBWORK);
-    ib01bd_sizes_(METH,JOB,JOBCK,N,M,L,&LDA,&LDC, &LDB, &LDD, &LDQ,
-                 &LDRY, &LDS, &LDK);
+    ib01bd_space_(&METH, &JOB, &JOBCK, &NOBR, &N, &M, &L,&LIWORK, &LDWORK, &LBWORK);
+    ib01bd_sizes_(&METH,&JOB,&JOBCK,&N,&M,&L,&LDA,&LDC, &LDB, &LDD, &LDQ,
+                  &LDRY, &LDS, &LDK);
 
     // -- Создание матриц
     A = fd_matrix{LDA, N}; B = fd_matrix{LDB, M}; C = fd_matrix{LDC, N};
@@ -167,13 +167,13 @@ TEST_F(IB01CD_Test, calculation) {
   for (char JOBX0 : JOBX0_V) for (char COMUSE : COMUSE_V) for (char JOB : JOB_V) {
     // -- Определяем и создаем рабочее пространство
     int LIWORK, LDWORK;
-    ib01cd_space_(JOBX0, COMUSE, JOB, N, M, L, NSMP, &LIWORK, &LDWORK);
+    ib01cd_space_(&JOBX0, &COMUSE, &JOB, &N, &M, &L, &NSMP, &LIWORK, &LDWORK);
     fi_matrix IWORK{LIWORK};
     fd_matrix DWORK{LDWORK};
 
     // -- Определяем выходные данные
     int LDX0, LDV;
-    ib01cd_sizes_(JOBX0, COMUSE, JOB, N, M, L, NSMP, &LDX0, &LDV);
+    ib01cd_sizes_(&JOBX0, &COMUSE, &JOB, &N, &M, &L, &NSMP, &LDX0, &LDV);
     fd_matrix X0 {LDX0};
     fd_matrix  V {LDV, N};
     int IWARN, INFO;

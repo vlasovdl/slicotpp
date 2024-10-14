@@ -5,9 +5,9 @@ bind(c, name = 'ib01cd_space_')
   use iso_c_binding, only : c_double, c_int, c_char
   implicit none
 ! -- Arguments
-  character (c_char), intent(in), value :: jobx0, comuse, job
-  integer (c_int),    intent(in), value :: n, m, l, nsmp
-  integer (C_int),    intent(out)       :: liwork, ldwork
+  character (c_char), intent(in)  :: jobx0, comuse, job
+  integer (c_int),    intent(in)  :: n, m, l, nsmp
+  integer (C_int),    intent(out) :: liwork, ldwork
 ! -- Locals
   integer :: ia, ic, iq, isize, itau, ldw, ldw2, ldw3, lm, ln, minsmp, minwls,&
              minwrk,  n2m, ncol, ncp1, nm, nn, nsmpl

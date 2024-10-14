@@ -6,9 +6,9 @@ subroutine ib01bd_sizes ( meth, job, jobck, n, m, l, lda, ldc, ldb, ldd, &
   use iso_c_binding, only : c_double, c_int, c_char
   implicit none
   ! -- Arguments
-  character (c_char), intent(in), value :: meth, job, jobck
-  integer (c_int),    intent(in), value :: n, m, l
-  integer (c_int),    intent(out)       :: lda, ldc, ldb, ldd, ldq, ldry, lds, &
+  character (c_char), intent(in)  :: meth, job, jobck
+  integer (c_int),    intent(in)  :: n, m, l
+  integer (c_int),    intent(out) :: lda, ldc, ldb, ldd, ldq, ldry, lds, &
     ldk
 
   ! -- Locals

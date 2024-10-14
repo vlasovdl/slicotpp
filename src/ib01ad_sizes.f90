@@ -5,9 +5,9 @@ subroutine ib01ad_sizes(meth, jobd, nobr, m, l, ldr, ldsv) &
   use iso_c_binding, only : c_double, c_int, c_char
   implicit none
   ! -- Arguments
-  character (c_char), intent(in), value :: meth, jobd
-  integer (c_int), intent(in), value    :: nobr, m, l
-  integer (c_int), intent(out)          :: ldr, ldsv
+  character (c_char), intent(in) :: meth, jobd
+  integer (c_int), intent(in)    :: nobr, m, l
+  integer (c_int), intent(out)   :: ldr, ldsv
   ! -- External functions
   logical  :: lsame
   external :: lsame

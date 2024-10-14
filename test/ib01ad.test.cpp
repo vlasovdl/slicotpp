@@ -75,8 +75,8 @@ TEST_F(IB01AD_Test, MOESP_Cholesky) {
   TOL   = -1.0;
 
   int LDR=0, LDSV = 0, LIWORK=0, LDWORK=0;
-  ib01ad_space_(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,&LIWORK,&LDWORK);
-  ib01ad_sizes_(METH,ALG,NOBR,M,L,&LDR,&LDSV);
+  ib01ad_space_(&METH,&ALG,&JOBD,&BATCH,&CONCT,&NOBR,&M,&L,&NSMP,&LIWORK,&LDWORK);
+  ib01ad_sizes_(&METH,&ALG,&NOBR,&M,&L,&LDR,&LDSV);
 
   R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
   SV = fd_matrix {LDSV};
@@ -107,8 +107,8 @@ TEST_F(IB01AD_Test, MOESP_FastQR) {
   TOL   = -1.0;
 
   int LDR=0, LDSV = 0, LIWORK=0, LDWORK=0;
-  ib01ad_space_(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,&LIWORK,&LDWORK);
-  ib01ad_sizes_(METH,ALG,NOBR,M,L,&LDR,&LDSV);
+  ib01ad_space_(&METH,&ALG,&JOBD,&BATCH,&CONCT,&NOBR,&M,&L,&NSMP,&LIWORK,&LDWORK);
+  ib01ad_sizes_(&METH,&ALG,&NOBR,&M,&L,&LDR,&LDSV);
 
   R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
   SV = fd_matrix {L*NOBR};
@@ -139,8 +139,8 @@ TEST_F(IB01AD_Test, MOESP_QR) {
   TOL   = -1.0;
 
   int LDR=0, LDSV = 0, LIWORK=0, LDWORK=0;
-  ib01ad_space_(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,&LIWORK,&LDWORK);
-  ib01ad_sizes_(METH,ALG,NOBR,M,L,&LDR,&LDSV);
+  ib01ad_space_(&METH,&ALG,&JOBD,&BATCH,&CONCT,&NOBR,&M,&L,&NSMP,&LIWORK,&LDWORK);
+  ib01ad_sizes_(&METH,&ALG,&NOBR,&M,&L,&LDR,&LDSV);
 
   R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
   SV = fd_matrix {L*NOBR};
@@ -171,8 +171,8 @@ TEST_F(IB01AD_Test, N4SID_Cholesky) {
   TOL   = -1.0;
 
   int LDR=0, LDSV = 0, LIWORK=0, LDWORK=0;
-  ib01ad_space_(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,&LIWORK,&LDWORK);
-  ib01ad_sizes_(METH,ALG,NOBR,M,L,&LDR,&LDSV);
+  ib01ad_space_(&METH,&ALG,&JOBD,&BATCH,&CONCT,&NOBR,&M,&L,&NSMP,&LIWORK,&LDWORK);
+  ib01ad_sizes_(&METH,&ALG,&NOBR,&M,&L,&LDR,&LDSV);
 
   R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
   SV = fd_matrix {L*NOBR};
@@ -203,8 +203,8 @@ TEST_F(IB01AD_Test, N4SID_FastQR) {
   TOL   = -1.0;
 
   int LDR=0, LDSV = 0, LIWORK=0, LDWORK=0;
-  ib01ad_space_(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,&LIWORK,&LDWORK);
-  ib01ad_sizes_(METH,ALG,NOBR,M,L,&LDR,&LDSV);
+  ib01ad_space_(&METH,&ALG,&JOBD,&BATCH,&CONCT,&NOBR,&M,&L,&NSMP,&LIWORK,&LDWORK);
+  ib01ad_sizes_(&METH,&ALG,&NOBR,&M,&L,&LDR,&LDSV);
 
   R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
   SV = fd_matrix {L*NOBR};
@@ -235,8 +235,8 @@ TEST_F(IB01AD_Test, N4SID_QR) {
   TOL   = -1.0;
 
   int LDR=0, LDSV = 0, LIWORK=0, LDWORK=0;
-  ib01ad_space_(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,&LIWORK,&LDWORK);
-  ib01ad_sizes_(METH,ALG,NOBR,M,L,&LDR,&LDSV);
+  ib01ad_space_(&METH,&ALG,&JOBD,&BATCH,&CONCT,&NOBR,&M,&L,&NSMP,&LIWORK,&LDWORK);
+  ib01ad_sizes_(&METH,&ALG,&NOBR,&M,&L,&LDR,&LDSV);
 
   R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
   SV = fd_matrix {L*NOBR};
@@ -273,8 +273,8 @@ TEST_F(IB01AD_Test, LDWORK_Calculation) {
         for (char BATCH : BATCH_V)
           for (char CONCT : CONCT_V) {
             int LDR=0, LDSV = 0, LIWORK=0, LDWORK=0;
-            ib01ad_space_(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,&LIWORK,&LDWORK);
-            ib01ad_sizes_(METH,ALG,NOBR,M,L,&LDR,&LDSV);
+            ib01ad_space_(&METH,&ALG,&JOBD,&BATCH,&CONCT,&NOBR,&M,&L,&NSMP,&LIWORK,&LDWORK);
+            ib01ad_sizes_(&METH,&ALG,&NOBR,&M,&L,&LDR,&LDSV);
             R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
             SV = fd_matrix {L*NOBR};
             IWORK = fi_matrix {LIWORK};
@@ -318,8 +318,8 @@ TEST_F(IB01AD_Test, DebugTest) {
   TOL   = -1.0;
 
   int LDR=0, LDSV = 0, LIWORK=0, LDWORK=0;
-  ib01ad_space_(METH,ALG,JOBD,BATCH,CONCT,NOBR,M,L,NSMP,&LIWORK,&LDWORK);
-  ib01ad_sizes_(METH,ALG,NOBR,M,L,&LDR,&LDSV);
+  ib01ad_space_(&METH,&ALG,&JOBD,&BATCH,&CONCT,&NOBR,&M,&L,&NSMP,&LIWORK,&LDWORK);
+  ib01ad_sizes_(&METH,&ALG,&NOBR,&M,&L,&LDR,&LDSV);
 
   R  = fd_matrix {LDR, 2 * (M + L) * NOBR};
   SV = fd_matrix {L*NOBR};

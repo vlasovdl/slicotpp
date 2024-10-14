@@ -6,9 +6,9 @@ subroutine ib01ad_space(meth, alg, jobd, batch, conct, nobr, m, l, nsmp, &
   use iso_c_binding, only : c_double, c_int, c_char
   implicit none
 ! -- Arguments
-  character (c_char), intent(in), value :: meth, alg, jobd, batch, conct
-  integer (c_int), intent(in), value    :: nobr, m, l, nsmp
-  integer (c_int), intent(out)          :: liwork, ldwork
+  character (c_char), intent(in) :: meth, alg, jobd, batch, conct
+  integer (c_int), intent(in)    :: nobr, m, l, nsmp
+  integer (c_int), intent(out)   :: liwork, ldwork
 ! -- External functions
   logical  :: lsame
   external :: lsame

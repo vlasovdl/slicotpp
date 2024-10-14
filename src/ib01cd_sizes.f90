@@ -5,9 +5,9 @@ subroutine ib01cd_sizes(jobx0, comuse, job, n, m, l, nsmp, ldx0, ldv) &
   use iso_c_binding, only : c_double, c_int, c_char
   implicit none
 ! -- Arguments
-  character (c_char), intent(in), value :: jobx0, comuse, job
-  integer (c_int),    intent(in), value :: n, m, l, nsmp
-  integer (c_int),    intent(out)       :: ldx0, ldv
+  character (c_char), intent(in)  :: jobx0, comuse, job
+  integer (c_int),    intent(in)  :: n, m, l, nsmp
+  integer (c_int),    intent(out) :: ldx0, ldv
 ! -- Externals
   logical  lsame
   external lsame

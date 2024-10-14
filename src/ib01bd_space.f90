@@ -5,9 +5,9 @@ subroutine ib01bd_space(meth, job, jobck, nobr, n, m, l, liwork, ldwork, lbwork)
   use iso_c_binding, only : c_double, c_int, c_char
   implicit none
 ! -- Arguments
-  character (c_char), intent(in), value :: meth, job, jobck
-  integer (c_int),    intent(in), value :: nobr, n, m, l
-  integer (c_int),    intent(out)       :: liwork, ldwork, lbwork
+  character (c_char), intent(in)  :: meth, job, jobck
+  integer (c_int),    intent(in)  :: nobr, n, m, l
+  integer (c_int),    intent(out) :: liwork, ldwork, lbwork
 ! -- Locals
   integer :: i, ia, iaw, ic, id, ierr, ifact, ig, ik, io,iq, ir, is, it, iv, &
              iwarnl, iwi, iwr, ix,jwork, ldunn, ll, lmmnol, lmnobr, lnobr, &
