@@ -15,18 +15,22 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 add_executable(unit_test
-  read_identification_data.hpp
   read_identification_data.cpp
   f_matrix.test.cpp
   ib01ad.test.cpp
   ib01bd.test.cpp
-  ib01.tools.hpp
-# ib01.tools.cpp
   ib01cd.test.cpp
 )
 
-target_link_libraries(unit_test PRIVATE slicotpp GTest::gmock GTest::gmock_main)
-target_compile_definitions(unit_test PRIVATE "DATA_PATH=${CMAKE_CURRENT_SOURCE_DIR}")
+target_link_libraries(unit_test
+  SLICOTPP
+  GTest::gmock
+  GTest::gmock_main
+)
+
+target_compile_definitions(unit_test PRIVATE
+  "DATA_PATH=${CMAKE_CURRENT_SOURCE_DIR}"
+)
 
 include(GoogleTest)
 gtest_discover_tests(
