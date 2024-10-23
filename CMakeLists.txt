@@ -37,7 +37,7 @@ endif ()
 
 # Конфигурация упаковщика
 set(package_files include/ src/ CMakeLists.txt)
-set(pkg_name ${PROJECT_NAME}-${CMAKE_PROJECT_VERSION}-src)
+set(pkg_name ${PROJECT_NAME}-src)
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${pkg_name}.zip
   COMMAND ${CMAKE_COMMAND} -E tar c ${CMAKE_CURRENT_BINARY_DIR}/${pkg_name}.zip --format=zip -- ${package_files}
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
