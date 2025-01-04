@@ -3,7 +3,7 @@ project( slicotpp
         VERSION         0.0.2
         DESCRIPTION     "C++ wrapper for SLICOT routines"
         LANGUAGES       C CXX Fortran
-        HOMEPAGE_URL    "https://gitlab.vlasovdl.ru/vlasovdl/slicotpp"
+        HOMEPAGE_URL    "https://github.com/vlasovdl/slicotpp"
 )
 include(FetchContent)
 
@@ -34,15 +34,3 @@ if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
     add_subdirectory(test bin/test)
   endif ()
 endif ()
-
-# Конфигурация упаковщика
-set(package_files include/ src/ CMakeLists.txt)
-set(pkg_name ${PROJECT_NAME}-src)
-add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${pkg_name}.zip
-  COMMAND ${CMAKE_COMMAND} -E tar c ${CMAKE_CURRENT_BINARY_DIR}/${pkg_name}.zip --format=zip -- ${package_files}
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-  DEPENDS ${package_files}
-)
-add_custom_target(${PROJECT_NAME}_package
-  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${pkg_name}.zip
-)
